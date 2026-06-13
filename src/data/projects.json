@@ -1,5 +1,26 @@
 [
   {
+    "slug": "commercial-complex-renovation",
+    "title": "Commercial Complex Renovation",
+    "location": "Nyali, Mombasa",
+    "year": 2026,
+    "type": "Renovation & Finishing Works",
+    "featured": true,
+    "client": "Prime Edge Investments",
+    "overview": "Renovation and modernization of a commercial complex to improve functionality, visual appeal, and operational efficiency. The project included structural upgrades, interior refurbishment, utility improvements, and external finishing to meet modern commercial standards.",
+    "images": [
+      "https://picsum.photos/1200/901",
+      "https://picsum.photos/1200/902",
+      "https://picsum.photos/1200/903"
+    ],
+    "scope": [
+      "Building condition assessment",
+      "Demolition and removal of outdated finishes",
+      "Structural repair and reinforcement"
+    ],
+    "impact": "Transformed the commercial facility into a modern and efficient space that improved tenant experience, increased property value, enhanced operational performance, and extended the building’s service life."
+  },
+  {
     "slug": "road-rehabilitation-and-drainage-upgrade",
     "title": "Road Rehabilitation and Drainage Upgrade",
     "location": "Kilifi",
