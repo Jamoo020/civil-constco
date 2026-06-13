@@ -1,6 +1,39 @@
 import fs from "fs/promises";
 import path from "path";
+import sharp from "sharp";
 import { NextRequest, NextResponse } from "next/server";
+
+function getExtensionForFormat(format: string | undefined) {
+  switch (format) {
+    case "png":
+      return ".png";
+    case "webp":
+      return ".webp";
+    case "avif":
+      return ".avif";
+    default:
+      return ".jpg";
+  }
+}
+
+async function compressImageBuffer(buffer: Buffer) {
+  const image = sharp(buffer).rotate();
+  const metadata = await image.metadata();
+  const outputFormat = metadata.format === "png" || metadata.format === "webp" || metadata.format === "avif" ? metadata.format : "jpeg";
+
+  const resized = image.resize({ width: 1600, withoutEnlargement: true });
+
+  switch (outputFormat) {
+    case "png":
+      return resized.png({ compressionLevel: 9, quality: 80 }).toBuffer();
+    case "webp":
+      return resized.webp({ quality: 80 }).toBuffer();
+    case "avif":
+      return resized.avif({ quality: 70 }).toBuffer();
+    default:
+      return resized.jpeg({ quality: 80, mozjpeg: true }).toBuffer();
+  }
+}
 
 async function uploadToFilesystem(files: any[]) {
   const uploadsDir = path.join(process.cwd(), "public", "uploads");
@@ -13,9 +46,15 @@ async function uploadToFilesystem(files: any[]) {
     // @ts-ignore
     const arrayBuffer = await f.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    const safeName = `${Date.now()}-${name.replace(/[^a-z0-9._-]/gi, "-")}`;
+    const compressed = await compressImageBuffer(buffer);
+
+    const parsed = path.parse(name);
+    const safeBase = parsed.name.replace(/[^a-z0-9_-]/gi, "-").toLowerCase();
+    const extension = getExtensionForFormat((await sharp(compressed).metadata()).format);
+    const safeName = `${Date.now()}-${safeBase}${extension}`;
     const filePath = path.join(uploadsDir, safeName);
-    await fs.writeFile(filePath, buffer);
+
+    await fs.writeFile(filePath, compressed);
     urls.push(`/uploads/${safeName}`);
   }
 
@@ -38,6 +77,9 @@ async function uploadToCloudinary(files: any[]) {
     const form = new FormData();
     form.append("file", blob, name);
     form.append("upload_preset", uploadPreset);
+    form.append("quality", "auto");
+    form.append("fetch_format", "auto");
+    form.append("transformation", JSON.stringify([{ quality: "auto", fetch_format: "auto", width: 1600, crop: "limit" }]));
 
     const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
       method: "POST",
