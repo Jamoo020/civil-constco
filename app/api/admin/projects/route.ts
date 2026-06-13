@@ -20,6 +20,28 @@ type Project = {
 const projectsFile = path.join(process.cwd(), "src/data/projects.json");
 
 async function readProjects(): Promise<Project[]> {
+  const token = process.env.GITHUB_TOKEN;
+  const repo = process.env.GITHUB_REPO;
+  if (token && repo) {
+    const apiBase = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent("src/data/projects.json")}`;
+    const res = await fetch(apiBase, {
+      headers: {
+        Authorization: `token ${token}`,
+        Accept: "application/vnd.github+json",
+      },
+      cache: "no-store",
+    });
+
+    if (res.ok) {
+      const json = await res.json();
+      const content = Buffer.from(json.content, json.encoding).toString("utf8");
+      return JSON.parse(content) as Project[];
+    }
+
+    const errorText = await res.text();
+    throw new Error(`GitHub read failed: ${res.status} ${errorText}`);
+  }
+
   const file = await fs.readFile(projectsFile, "utf8");
   return JSON.parse(file) as Project[];
 }

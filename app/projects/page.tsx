@@ -7,7 +7,7 @@ export const metadata = {
   description: "Browse Civil and Construction projects completed across the Kenyan Coast, highways, ports, and coastal communities.",
 };
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 export default async function ProjectsPage() {
   const projects = await getProjects();

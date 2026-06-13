@@ -3,11 +3,6 @@ import { getProjectBySlug, getProjects } from "../../../src/data/projects";
 import { notFound } from "next/navigation";
 import ProjectGallery from "../../../src/components/ProjectGallery";
 
-export async function generateStaticParams() {
-  const projects = await getProjects();
-  return projects.map((p) => ({ slug: p.slug }));
-}
-
 export async function generateMetadata({ params }: { params: { slug: string } | Promise<{ slug: string }> }) {
   const resolved = await params;
   const project = await getProjectBySlug(resolved.slug);
@@ -21,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } | 
   };
 }
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 export default async function ProjectPage({ params }: { params: { slug: string } | Promise<{ slug: string }> }) {
   const resolved = await params;
