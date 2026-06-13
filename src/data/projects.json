@@ -100,11 +100,11 @@
     "featured": false,
     "client": "Lamu Port Authority",
     "overview": "Development of a multi-use logistics hub adjacent to Lamu Port, including storage yards, access roads, and container handling facilities.",
-    "image": "https://images.unsplash.com/photo-1519741490418-f3d537b6962f?auto=format&fit=crop&w=1200&q=80",
+    "image": "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
     "images": [
-      "https://images.unsplash.com/photo-1519741490418-f3d537b6962f?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80"
+      "https://images.unsplash.com/photo-1519741490418-f3d537b6962f?auto=format&fit=crop&w=1200&q=80"
     ],
     "scope": [
       "Yard paving and drainage",
