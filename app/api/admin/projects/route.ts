@@ -59,6 +59,21 @@ async function commitProjectsToGitHub(projects: Project[]) {
   return true;
 }
 
+async function persistProjects(projects: Project[]) {
+  const isVercel = Boolean(process.env.VERCEL);
+  const hasGitHub = Boolean(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO);
+
+  if (hasGitHub) {
+    return await commitProjectsToGitHub(projects);
+  }
+
+  if (isVercel) {
+    throw new Error("Project persistence on Vercel requires GITHUB_TOKEN and GITHUB_REPO. Please set both environment variables in Vercel and redeploy.");
+  }
+
+  return fs.writeFile(projectsFile, JSON.stringify(projects, null, 2), "utf8");
+}
+
 function createSlug(title: string) {
   return title
     .toLowerCase()
@@ -151,15 +166,10 @@ export async function POST(request: NextRequest) {
 
   projects.unshift(validation.project!);
 
-  // If GitHub token + repo are configured, commit the updated projects.json to the repo so Vercel auto-deploys.
   try {
-    if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
-      await commitProjectsToGitHub(projects);
-    } else {
-      await fs.writeFile(projectsFile, JSON.stringify(projects, null, 2), "utf8");
-    }
-  } catch (err) {
-    return NextResponse.json({ error: "Unable to persist projects." }, { status: 500 });
+    await persistProjects(projects);
+  } catch (err: any) {
+    return NextResponse.json({ error: err?.message || "Unable to persist projects." }, { status: 500 });
   }
 
   return NextResponse.json({ success: true, project: validation.project });
@@ -187,13 +197,9 @@ export async function PUT(request: NextRequest) {
   projects[index] = validation.project!;
 
   try {
-    if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
-      await commitProjectsToGitHub(projects);
-    } else {
-      await fs.writeFile(projectsFile, JSON.stringify(projects, null, 2), "utf8");
-    }
-  } catch (err) {
-    return NextResponse.json({ error: "Unable to persist projects." }, { status: 500 });
+    await persistProjects(projects);
+  } catch (err: any) {
+    return NextResponse.json({ error: err?.message || "Unable to persist projects." }, { status: 500 });
   }
 
   return NextResponse.json({ success: true, project: validation.project });
@@ -212,13 +218,9 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Project not found." }, { status: 404 });
   }
   try {
-    if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
-      await commitProjectsToGitHub(updated);
-    } else {
-      await fs.writeFile(projectsFile, JSON.stringify(updated, null, 2), "utf8");
-    }
-  } catch (err) {
-    return NextResponse.json({ error: "Unable to persist projects." }, { status: 500 });
+    await persistProjects(updated);
+  } catch (err: any) {
+    return NextResponse.json({ error: err?.message || "Unable to persist projects." }, { status: 500 });
   }
 
   return NextResponse.json({ success: true });
