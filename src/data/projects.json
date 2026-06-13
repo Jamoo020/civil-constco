@@ -1,5 +1,22 @@
 [
   {
+    "slug": "roof-construction",
+    "title": "Roof Construction",
+    "location": "Mariakani",
+    "year": 2026,
+    "type": "General",
+    "featured": true,
+    "client": "Jameson",
+    "overview": "Construction and installation of a durable roofing system for the client’s property in Mariakani, including planning, material supply, structural works, waterproofing, drainage installation, quality assurance, and final project handover completed to industry standards.",
+    "images": [],
+    "scope": [
+      "Detailed site survey and measurements",
+      "Preparation of roof construction drawings",
+      "Supply of certified roofing materials"
+    ],
+    "impact": "Successfully delivered a durable and weather-resistant roofing solution that improved structural protection, enhanced property value, and increased long-term sustainability while meeting client requirements and safety standards."
+  },
+  {
     "slug": "mombasa-coastal-road",
     "title": "Mombasa Coastal Road Upgrade",
     "location": "Mombasa, Coast Region",
