@@ -45,7 +45,10 @@ export default async function Home() {
       <StatsPanel />
 
       {/* Featured Projects Section */}
-      <div className="container py-16 space-y-8">
+      <div className="relative bg-gradient-to-b from-slate-50/50 to-transparent py-16">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_24%,rgba(14,116,144,.02)_25%,rgba(14,116,144,.02)_26%,transparent_27%,transparent_74%,rgba(14,116,144,.02)_75%,rgba(14,116,144,.02)_76%,transparent_77%,transparent)] bg-[length:100px_100px] pointer-events-none" />
+        <div className="container space-y-8 relative z-10">
         <div className="space-y-3">
           <p className="text-sm uppercase tracking-widest text-gray-500">Our Work</p>
           <h2 className="text-4xl font-bold">Flagship Infrastructure Projects</h2>
@@ -57,6 +60,7 @@ export default async function Home() {
           {featured.map((p) => (
             <ProjectCard key={p.slug} project={p} />
           ))}
+        </div>
         </div>
       </div>
 
