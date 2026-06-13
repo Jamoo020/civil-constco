@@ -1,5 +1,26 @@
 [
   {
+    "slug": "residential-apartment-construction",
+    "title": "Residential Apartment Construction",
+    "location": "Mtwapa",
+    "year": 2026,
+    "type": "Building Construction",
+    "featured": true,
+    "client": "Blue Horizon Properties",
+    "overview": "Development of a modern residential apartment complex designed to provide safe, functional, and high-quality living spaces. The project included site preparation, structural works, finishing, utility installation, and quality assurance to ensure durability and compliance with construction standards.",
+    "images": [
+      "https://picsum.photos/1200/801",
+      "https://picsum.photos/1200/802",
+      "https://picsum.photos/1200/803"
+    ],
+    "scope": [
+      "Site preparation and land clearing",
+      "Foundation excavation and construction",
+      "Structural framework development"
+    ],
+    "impact": "Successfully delivered a modern residential facility that improved housing availability, enhanced occupant comfort and safety, created local employment opportunities, and contributed to sustainable urban development."
+  },
+  {
     "slug": "roof-construction",
     "title": "Roof Construction",
     "location": "Mariakani",
