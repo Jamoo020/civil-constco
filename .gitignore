@@ -1,0 +1,9 @@
+node_modules
+.next
+dist
+coverage
+/.env
+
+# Ignore development and build logs
+*.log
+build*.txt

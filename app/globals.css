@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --brand-steel:#2B3A4A;
+  --brand-concrete:#BFC7C9;
+  --brand-sand:#D6C4A6;
+  --brand-coast:#0E7490;
+}
+
+html,body,#root{
+  height:100%;
+}
+
+body{
+  font-family:Inter,ui-sans-serif,system-ui;
+  background:linear-gradient(180deg,#f8fafc,white);
+  color:var(--brand-steel);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.container{max-width:1200px;padding-left:1rem;padding-right:1rem;margin-left:auto;margin-right:auto}

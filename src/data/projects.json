@@ -1,0 +1,140 @@
+[
+  {
+    "slug": "mombasa-coastal-road",
+    "title": "Mombasa Coastal Road Upgrade",
+    "location": "Mombasa, Coast Region",
+    "year": 2024,
+    "type": "Roads",
+    "featured": true,
+    "client": "County Government of Mombasa",
+    "overview": "Comprehensive coastal road upgrade including shore-protection measures, improved drainage, and resurfacing across 28km of arterial routes serving Mombasa's eastern corridor.",
+    "image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "scope": [
+      "Earthworks and pavement rehabilitation",
+      "Drainage and culvert installation",
+      "Coastal protection revetments",
+      "Traffic management and safety improvements"
+    ],
+    "impact": "Improved resilience against coastal erosion, reduced travel times, and enhanced connectivity for port-access communities."
+  },
+  {
+    "slug": "kilifi-marina-harbour-expansion",
+    "title": "Kilifi Marina Harbour Expansion",
+    "location": "Kilifi, Coast Region",
+    "year": 2025,
+    "type": "Marine Infrastructure",
+    "featured": true,
+    "client": "Kilifi County Government",
+    "overview": "Expanded marina and harbour facilities to support fishing, tourism, and coastal logistics with new berths, breakwaters, and shore-side services.",
+    "image": "https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?auto=format&fit=crop&w=1200&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "scope": [
+      "Breakwater construction",
+      "New berth and pier installation",
+      "Harbour dredging and access channel works",
+      "Shore-side utilities and security upgrades"
+    ],
+    "impact": "Enhanced coastal trade, improved marine safety, and stronger tourism support infrastructure for Kilifi's waterfront economy."
+  },
+  {
+    "slug": "malindi-tourism-access-road",
+    "title": "Malindi Tourism Access Road",
+    "location": "Malindi, Coast Region",
+    "year": 2024,
+    "type": "Roads",
+    "featured": false,
+    "client": "Kenya Tourism Board",
+    "overview": "A new access road linking resort areas to the main highway, improving visitor flow and reducing travel time for coastal tourism corridors.",
+    "image": "https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1200&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1526230336756-4d7b491803d9?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "scope": [
+      "Subgrade strengthening",
+      "Asphalt paving",
+      "Pedestrian and cycling amenities",
+      "Landscape and signage works"
+    ],
+    "impact": "Better connectivity for hotels and resorts, reduced congestion, and a safer travel route for tourists and local commuters."
+  },
+  {
+    "slug": "tana-river-bridge-rehabilitation",
+    "title": "Tana River Bridge Rehabilitation",
+    "location": "Tana River County",
+    "year": 2023,
+    "type": "Bridges",
+    "featured": false,
+    "client": "Kenya National Highways Authority",
+    "overview": "Bridge strengthening, deck replacement, and traffic capacity improvements on a major Tana River crossing used by regional freight and passenger traffic.",
+    "image": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1464454709131-ffd692591ee5?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1470123808288-63a71f74d272?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "scope": [
+      "Structural repairs and reinforcement",
+      "Deck resurfacing",
+      "Expansion joints and bearings renewal",
+      "Traffic management and safety upgrades"
+    ],
+    "impact": "Extended service life of critical bridge infrastructure, safer crossings, and improved freight reliability for inland supply chains."
+  },
+  {
+    "slug": "lamu-port-logistics-hub",
+    "title": "Lamu Port Logistics Hub",
+    "location": "Lamu, Coast Region",
+    "year": 2025,
+    "type": "Port Works",
+    "featured": false,
+    "client": "Lamu Port Authority",
+    "overview": "Development of a multi-use logistics hub adjacent to Lamu Port, including storage yards, access roads, and container handling facilities.",
+    "image": "https://images.unsplash.com/photo-1519741490418-f3d537b6962f?auto=format&fit=crop&w=1200&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1519741490418-f3d537b6962f?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "scope": [
+      "Yard paving and drainage",
+      "Container stacking and handling works",
+      "Heavy vehicle access roads",
+      "Security and utilities installation"
+    ],
+    "impact": "Strengthened port capacity, reduced inland delivery times, and a more competitive logistics gateway for coastal imports and exports."
+  },
+  {
+    "slug": "coast-urban-drainage-upgrade",
+    "title": "Coast Urban Drainage Upgrade",
+    "location": "Mombasa Metro",
+    "year": 2024,
+    "type": "Urban Infrastructure",
+    "featured": false,
+    "client": "Mombasa City Council",
+    "overview": "Upgraded stormwater drainage across key urban corridors to reduce flooding, improve roadway resilience, and support economic activity in downtown districts.",
+    "image": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1501876725168-00c445821c9e?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "scope": [
+      "New culvert and drain construction",
+      "Road resurfacing and sidewalk repairs",
+      "Drainage basin and spillway improvements",
+      "Public outreach and traffic control"
+    ],
+    "impact": "Lower flood risk, cleaner waterways, and more reliable urban transport during heavy rain events."
+  }
+]
