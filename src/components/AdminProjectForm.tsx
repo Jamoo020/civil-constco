@@ -27,6 +27,9 @@ type Props = {
 export default function AdminProjectForm({ project, loading, onSave, onCancel }: Props) {
   const [formState, setFormState] = useState(project);
   const [validationError, setValidationError] = useState("");
+  const [files, setFiles] = useState<FileList | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   const scopeLines = useMemo(() => formState.scope.trim().split("\n").filter(Boolean).length, [formState.scope]);
   const imagesLines = useMemo(() => formState.images.trim().split("\n").filter(Boolean).length, [formState.images]);
@@ -53,6 +56,37 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
     }
     setValidationError("");
     await onSave(formState);
+  }
+
+  async function handleUpload() {
+    if (!files || files.length === 0) return;
+    setUploading(true);
+    setUploadError("");
+    try {
+      const form = new FormData();
+      for (let i = 0; i < files.length; i++) form.append("file", files[i]);
+
+      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+      const data = await res.json();
+      if (!res.ok) {
+        setUploadError(data.error || "Upload failed.");
+        return;
+      }
+
+      const urls: string[] = data.urls || [];
+      if (urls.length) {
+        setFormState((cur) => ({
+          ...cur,
+          images: [cur.images, ...urls].filter(Boolean).join("\n"),
+          image: cur.image || urls[0],
+        }));
+      }
+      setFiles(null);
+    } catch (err) {
+      setUploadError("Upload failed.");
+    } finally {
+      setUploading(false);
+    }
   }
 
   return (
@@ -169,6 +203,29 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
           className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
         />
         <p className="mt-2 text-sm text-gray-500">{imagesLines} image URL(s).</p>
+      </label>
+
+      <label className="block mt-6">
+        <span className="text-sm font-medium text-gray-700">Upload images from device</span>
+        <span className="block text-xs text-gray-500 mb-2">Select one or more image files and upload them. Uploaded files will be saved to /uploads.</span>
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) => setFiles(e.target.files)}
+          className="mt-2"
+        />
+        <div className="mt-3 flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleUpload}
+            disabled={uploading || !files || files.length === 0}
+            className="rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
+          >
+            {uploading ? "Uploading…" : "Upload selected files"}
+          </button>
+          {uploadError ? <p className="text-sm text-red-600">{uploadError}</p> : null}
+        </div>
       </label>
 
       <label className="block mt-6">

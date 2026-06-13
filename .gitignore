@@ -7,3 +7,4 @@ coverage
 # Ignore development and build logs
 *.log
 build*.txt
+.env.local

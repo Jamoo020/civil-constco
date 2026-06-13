@@ -24,6 +24,41 @@ async function readProjects(): Promise<Project[]> {
   return JSON.parse(file) as Project[];
 }
 
+async function readProjectsFromFilesystem(): Promise<Project[]> {
+  return readProjects();
+}
+
+async function commitProjectsToGitHub(projects: Project[]) {
+  const token = process.env.GITHUB_TOKEN;
+  const repo = process.env.GITHUB_REPO; // format: owner/repo
+  if (!token || !repo) throw new Error("GitHub not configured");
+
+  const pathOnRepo = "src/data/projects.json";
+  const apiBase = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(pathOnRepo)}`;
+
+  // Get current file to obtain sha
+  const getRes = await fetch(apiBase, { headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" } });
+  let sha: string | undefined;
+  if (getRes.ok) {
+    const json = await getRes.json();
+    sha = json.sha;
+  }
+
+  const content = Buffer.from(JSON.stringify(projects, null, 2)).toString("base64");
+  const commitRes = await fetch(apiBase, {
+    method: "PUT",
+    headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+    body: JSON.stringify({ message: "Update projects via admin interface", content, sha }),
+  });
+
+  if (!commitRes.ok) {
+    const text = await commitRes.text();
+    throw new Error(`GitHub commit failed: ${text}`);
+  }
+
+  return true;
+}
+
 function createSlug(title: string) {
   return title
     .toLowerCase()
@@ -96,7 +131,8 @@ function validateProject(body: any): { project?: Project; error?: string } {
 }
 
 export async function GET() {
-  const projects = await readProjects();
+  // Prefer reading from filesystem (source of truth in repo), GitHub reading is only for commits
+  const projects = await readProjectsFromFilesystem();
   return NextResponse.json({ projects });
 }
 
@@ -114,7 +150,17 @@ export async function POST(request: NextRequest) {
   }
 
   projects.unshift(validation.project!);
-  await fs.writeFile(projectsFile, JSON.stringify(projects, null, 2), "utf8");
+
+  // If GitHub token + repo are configured, commit the updated projects.json to the repo so Vercel auto-deploys.
+  try {
+    if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
+      await commitProjectsToGitHub(projects);
+    } else {
+      await fs.writeFile(projectsFile, JSON.stringify(projects, null, 2), "utf8");
+    }
+  } catch (err) {
+    return NextResponse.json({ error: "Unable to persist projects." }, { status: 500 });
+  }
 
   return NextResponse.json({ success: true, project: validation.project });
 }
@@ -139,7 +185,16 @@ export async function PUT(request: NextRequest) {
   }
 
   projects[index] = validation.project!;
-  await fs.writeFile(projectsFile, JSON.stringify(projects, null, 2), "utf8");
+
+  try {
+    if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
+      await commitProjectsToGitHub(projects);
+    } else {
+      await fs.writeFile(projectsFile, JSON.stringify(projects, null, 2), "utf8");
+    }
+  } catch (err) {
+    return NextResponse.json({ error: "Unable to persist projects." }, { status: 500 });
+  }
 
   return NextResponse.json({ success: true, project: validation.project });
 }
@@ -156,7 +211,15 @@ export async function DELETE(request: NextRequest) {
   if (updated.length === projects.length) {
     return NextResponse.json({ error: "Project not found." }, { status: 404 });
   }
+  try {
+    if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
+      await commitProjectsToGitHub(updated);
+    } else {
+      await fs.writeFile(projectsFile, JSON.stringify(updated, null, 2), "utf8");
+    }
+  } catch (err) {
+    return NextResponse.json({ error: "Unable to persist projects." }, { status: 500 });
+  }
 
-  await fs.writeFile(projectsFile, JSON.stringify(updated, null, 2), "utf8");
   return NextResponse.json({ success: true });
 }
