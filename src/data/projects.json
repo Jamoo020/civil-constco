@@ -1,5 +1,27 @@
 [
   {
+    "slug": "road-rehabilitation-and-drainage-upgrade",
+    "title": "Road Rehabilitation and Drainage Upgrade",
+    "location": "Kilifi",
+    "year": 2026,
+    "type": "Road Construction",
+    "featured": true,
+    "client": "Coastal Transport Authority",
+    "overview": "Rehabilitation and upgrading of an existing road network to improve accessibility, reduce travel time, and enhance drainage performance. The project involved pavement improvements, stormwater management, road safety enhancements, and final quality inspections.",
+    "image": "https://picsum.photos/1200/850",
+    "images": [
+      "https://picsum.photos/1200/851",
+      "https://picsum.photos/1200/852",
+      "https://picsum.photos/1200/853"
+    ],
+    "scope": [
+      "Site assessment and project planning",
+      "Road excavation and grading",
+      "Sub-base and base layer preparation"
+    ],
+    "impact": "Improved road accessibility and transport efficiency, reduced flooding risks through enhanced drainage systems, increased road safety for users, and supported local economic growth through better connectivity."
+  },
+  {
     "slug": "residential-apartment-construction",
     "title": "Residential Apartment Construction",
     "location": "Mtwapa",
