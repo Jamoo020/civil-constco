@@ -57,11 +57,19 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://fineconebuilders.co.ke"
   },
-  viewport: "width=device-width, initial-scale=1.0, maximum-scale=5.0",
+  
   authors: [{ name: "Finecone Builders Limited" }],
   creator: "Finecone Builders Limited",
   publisher: "Finecone Builders Limited"
 };
+
+export function generateViewport() {
+  return {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5
+  };
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
