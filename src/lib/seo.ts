@@ -25,11 +25,11 @@ export function buildPageMeta({
     title,
     description,
     keywords,
-    canonical: canonical || `https://coastinfrastructure.co.ke${new URL(canonical || "/", "http://temp.com").pathname}`,
+    canonical: canonical || `https://fineconebuilders.co.ke${new URL(canonical || "/", "http://temp.com").pathname}`,
     openGraph: {
       title,
       description,
-      url: canonical,
+      url: canonical || "https://fineconebuilders.co.ke",
       type: "website",
       images: image
         ? [
@@ -48,7 +48,7 @@ export function buildPageMeta({
       card: "summary_large_image",
       title,
       description,
-      creator: "@coastinfra",
+      creator: "@fineconebuilders",
     },
   };
 }
@@ -75,8 +75,8 @@ export function organizationSchema({
     email,
     telephone: phone,
     sameAs: [
-      "https://www.linkedin.com/company/coast-infrastructure",
-      "https://twitter.com/coastinfra",
+      "https://www.linkedin.com/company/finecone-builders-limited",
+      "https://twitter.com/fineconebuilders",
     ],
   };
 }
@@ -102,7 +102,7 @@ export function serviceSchema({
     provider: {
       "@type": "Organization",
       name: provider,
-      url: "https://coastinfrastructure.co.ke",
+      url: "https://fineconebuilders.co.ke",
     },
     areaServed: Array.isArray(areaServed)
       ? areaServed.map((area) => ({ "@type": "City", name: area }))

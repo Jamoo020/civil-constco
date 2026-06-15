@@ -15,4 +15,4 @@ User-agent: SemrushBot
 Crawl-delay: 10
 
 # Sitemaps
-Sitemap: https://coastinfrastructure.co.ke/sitemap.xml
+Sitemap: https://fineconebuilders.co.ke/sitemap.xml

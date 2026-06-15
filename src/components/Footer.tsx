@@ -80,8 +80,8 @@ export default function Footer() {
                 Kilifi, Kenya
               </li>
               <li>
-                <a href="mailto:info@coastinfrastructure.com" className="hover:text-amber-400 transition">
-                  info@coastinfrastructure.com
+                <a href="mailto:info@fineconebuilders.co.ke" className="hover:text-amber-400 transition">
+                  info@fineconebuilders.co.ke
                 </a>
               </li>
               <li className="text-slate-300">

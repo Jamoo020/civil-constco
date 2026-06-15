@@ -32,7 +32,7 @@ export default function ContactPage() {
             <p className="font-semibold">Phone</p>
             <p>+254 700 000 000</p>
             <p className="mt-4 font-semibold">Email</p>
-            <p>hello@coast-infrastructure.co.ke</p>
+            <p>info@fineconebuilders.co.ke</p>
           </div>
         </aside>
       </div>

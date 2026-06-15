@@ -29,15 +29,15 @@ export const metadata: Metadata = {
     "site supervision",
     "engineering services nationwide"
   ],
-  canonical: "https://coastinfrastructure.co.ke",
+  canonical: "https://fineconebuilders.co.ke",
   alternates: {
-    canonical: "https://coastinfrastructure.co.ke"
+    canonical: "https://fineconebuilders.co.ke"
   },
   openGraph: {
     title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
     description: "Finecone Builders Limited is a Kilifi-headquartered coastal construction company delivering civil engineering and infrastructure across the Kenyan Coast and all 47 counties.",
     type: "website",
-    url: "https://coastinfrastructure.co.ke",
+    url: "https://fineconebuilders.co.ke",
     siteName: "Finecone Builders Limited",
     locale: "en_KE",
     images: [
@@ -66,11 +66,11 @@ export default async function Home() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://coastinfrastructure.co.ke",
+    "@id": "https://fineconebuilders.co.ke",
     name: "Finecone Builders Limited",
     description: "Professional civil engineering and construction services across Kenya",
-    url: "https://coastinfrastructure.co.ke",
-    logo: "https://coastinfrastructure.co.ke/logo.png",
+    url: "https://fineconebuilders.co.ke",
+    logo: "https://fineconebuilders.co.ke/logo.png",
     areaServed: {
       "@type": "Country",
       name: "Kenya"
@@ -83,7 +83,7 @@ export default async function Home() {
       "Kenya"
     ],
     telephone: "+254731300089",
-    email: "info@coastinfrastructure.com",
+    email: "info@fineconebuilders.co.ke",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Kilifi",

@@ -5,7 +5,7 @@ import Footer from "../src/components/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://coastinfrastructure.co.ke"),
+  metadataBase: new URL("https://fineconebuilders.co.ke"),
   title: {
     default: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
     template: "%s | Finecone Builders Limited"
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_KE",
-    url: "https://coastinfrastructure.co.ke",
+    url: "https://fineconebuilders.co.ke",
     siteName: "Finecone Builders Limited",
     title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
     description: "Finecone Builders Limited is a Kilifi-headquartered coastal construction company delivering civil engineering and infrastructure across the Kenyan Coast and all 47 counties.",
@@ -52,10 +52,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
     description: "Professional civil engineering and construction services across Kenya.",
-    creator: "@coastinfra"
+    creator: "@fineconebuilders"
   },
   alternates: {
-    canonical: "https://coastinfrastructure.co.ke"
+    canonical: "https://fineconebuilders.co.ke"
   },
   viewport: "width=device-width, initial-scale=1.0, maximum-scale=5.0",
   authors: [{ name: "Finecone Builders Limited" }],
@@ -82,12 +82,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Finecone Builders Limited",
-              url: "https://coastinfrastructure.co.ke",
-              logo: "https://coastinfrastructure.co.ke/logo.png",
+              url: "https://fineconebuilders.co.ke",
+              logo: "https://fineconebuilders.co.ke/logo.png",
               description: "Professional civil engineering and construction services across Kenya",
               sameAs: [
-                "https://www.linkedin.com/company/coast-infrastructure",
-                "https://twitter.com/coastinfra"
+                "https://www.linkedin.com/company/finecone-builders-limited",
+                "https://twitter.com/fineconebuilders"
               ],
               address: {
                 "@type": "PostalAddress",
@@ -101,7 +101,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 "@type": "ContactPoint",
                 telephone: "+254731300089",
                 contactType: "Customer Service",
-                email: "info@coastinfrastructure.com"
+                email: "info@fineconebuilders.co.ke"
               }
             })
           }}
