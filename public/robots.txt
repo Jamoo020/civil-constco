@@ -1,4 +1,18 @@
+# Allow all crawlers
 User-agent: *
-Disallow:
+Allow: /
+Crawl-delay: 1
+Request-rate: 30/60
 
-Sitemap: /sitemap.xml
+# Block bad actors
+User-agent: MJ12bot
+Crawl-delay: 10
+
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+# Sitemaps
+Sitemap: https://coastinfrastructure.co.ke/sitemap.xml

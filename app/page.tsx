@@ -8,10 +8,11 @@ import TestimonialSection from "../src/components/TestimonialSection";
 import TrustBar from "../src/components/TrustBar";
 import { getProjects } from "../src/data/projects";
 import ProjectCard from "../src/components/ProjectCard";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Coast Infrastructure | Civil Engineering & Construction Kenya",
-  description: "Professional civil engineering and construction services across all 47 Kenyan counties. Based in Kilifi, delivering resilient infrastructure with technical excellence and transparency.",
+  description: "Professional civil engineering and construction services across all 47 Kenyan counties. Based in Mombasa, delivering resilient infrastructure with technical excellence and transparency.",
   keywords: [
     "civil engineering Kenya",
     "construction contractor Kenya",
@@ -24,13 +25,31 @@ export const metadata = {
     "site supervision",
     "engineering services nationwide"
   ],
+  canonical: "https://coastinfrastructure.co.ke",
+  alternates: {
+    canonical: "https://coastinfrastructure.co.ke"
+  },
   openGraph: {
     title: "Coast Infrastructure | Civil Engineering & Construction Kenya",
     description: "Professional civil engineering and construction services across Kenya. Technical excellence, transparent processes, nationwide delivery.",
     type: "website",
     url: "https://coastinfrastructure.co.ke",
     siteName: "Coast Infrastructure",
+    locale: "en_KE",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Coast Infrastructure - Civil Engineering & Construction Services"
+      }
+    ]
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Coast Infrastructure | Civil Engineering & Construction Kenya",
+    description: "Professional civil engineering and construction services across Kenya."
+  }
 };
 
 export const dynamic = "force-static";
@@ -39,45 +58,84 @@ export default async function Home() {
   const projects = await getProjects();
   const featured = projects.filter((p) => p.featured).slice(0, 3);
 
+  // JSON-LD Schema for LocalBusiness/Service
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://coastinfrastructure.co.ke",
+    name: "Coast Infrastructure Ltd",
+    description: "Professional civil engineering and construction services across Kenya",
+    url: "https://coastinfrastructure.co.ke",
+    logo: "https://coastinfrastructure.co.ke/logo.png",
+    areaServed: {
+      "@type": "Country",
+      name: "Kenya"
+    },
+    serviceArea: [
+      "Mombasa",
+      "Kilifi",
+      "Malindi",
+      "Kwale",
+      "Kenya"
+    ],
+    telephone: "+254731300089",
+    email: "info@coastinfrastructure.com",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Mombasa",
+      addressLocality: "Mombasa",
+      addressRegion: "Coastal",
+      postalCode: "80100",
+      addressCountry: "KE"
+    },
+    priceRange: "$$"
+  };
+
   return (
-    <section className="space-y-0">
-      <Hero />
-      <StatsPanel />
+    <>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <section className="space-y-0">
+        <Hero />
+        <StatsPanel />
 
-      {/* Featured Projects Section */}
-      <div className="relative bg-gradient-to-b from-slate-50/50 to-transparent py-16">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_24%,rgba(14,116,144,.02)_25%,rgba(14,116,144,.02)_26%,transparent_27%,transparent_74%,rgba(14,116,144,.02)_75%,rgba(14,116,144,.02)_76%,transparent_77%,transparent)] bg-[length:100px_100px] pointer-events-none" />
-        <div className="container space-y-8 relative z-10">
-        <div className="space-y-3">
-          <p className="text-sm uppercase tracking-widest text-gray-500">Our Work</p>
-          <h2 className="text-4xl font-bold">Flagship Infrastructure Projects</h2>
-          <p className="text-lg text-gray-600 max-w-2xl">
-            Selected civil engineering and construction works demonstrating our technical capability and execution discipline across coastal and inland Kenya.
-          </p>
+        {/* Featured Projects Section */}
+        <div className="relative bg-gradient-to-b from-slate-50/50 to-transparent py-16">
+          {/* Subtle background pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_24%,rgba(14,116,144,.02)_25%,rgba(14,116,144,.02)_26%,transparent_27%,transparent_74%,rgba(14,116,144,.02)_75%,rgba(14,116,144,.02)_76%,transparent_77%,transparent)] bg-[length:100px_100px] pointer-events-none" />
+          <div className="container space-y-8 relative z-10">
+            <div className="space-y-3">
+              <p className="text-sm uppercase tracking-widest text-gray-500">Our Work</p>
+              <h2 className="text-4xl font-bold">Flagship Infrastructure Projects</h2>
+              <p className="text-lg text-gray-600 max-w-2xl">
+                Selected civil engineering and construction works demonstrating our technical capability and execution discipline across coastal and inland Kenya.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {featured.map((p) => (
+                <ProjectCard key={p.slug} project={p} />
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {featured.map((p) => (
-            <ProjectCard key={p.slug} project={p} />
-          ))}
-        </div>
-        </div>
-      </div>
 
-      {/* Process Journey */}
-      <ProcessJourney />
+        {/* Process Journey */}
+        <ProcessJourney />
 
-      {/* Team Expertise */}
-      <TeamExpertise />
+        {/* Team Expertise */}
+        <TeamExpertise />
 
-      {/* Regional Coverage */}
-      <RegionMap />
+        {/* Regional Coverage */}
+        <RegionMap />
 
-      {/* Testimonials */}
-      <TestimonialSection />
+        {/* Testimonials */}
+        <TestimonialSection />
 
-      {/* Trust Bar */}
-      <TrustBar />
+        {/* Trust Bar */}
+        <TrustBar />
 
       {/* CTA Section */}
       <section className="container py-16 text-center space-y-6">
@@ -96,6 +154,7 @@ export default async function Home() {
           </a>
         </div>
       </section>
-    </section>
+      </section>
+    </>
   );
 }
