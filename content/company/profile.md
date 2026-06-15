@@ -1,5 +1,5 @@
 ---
-name: Coast Infrastructure Ltd
+name: Finecone Builders Limited
 founded: 2010
 areas: Mombasa, Kilifi, Malindi, Kwale, Nationwide
 ---

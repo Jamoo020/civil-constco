@@ -31,7 +31,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="font-bold text-lg text-white">{company.name}</h4>
             <p className="text-sm leading-relaxed text-slate-300">
-              Design-build contractor in Mombasa — engineered residential and commercial construction with disciplined site control.
+              Design-build contractor headquartered in Kilifi — engineered residential and commercial construction with disciplined site control.
             </p>
           </div>
 
@@ -77,7 +77,7 @@ export default function Footer() {
                 </a>
               </li>
               <li className="text-slate-300">
-                Mombasa, Kenya
+                Kilifi, Kenya
               </li>
               <li>
                 <a href="mailto:info@coastinfrastructure.com" className="hover:text-amber-400 transition">

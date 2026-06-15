@@ -1,8 +1,8 @@
 import AdminInterface from "../../src/components/AdminInterface";
 
 export const metadata = {
-  title: "Admin | Coast Infrastructure",
-  description: "Manage project entries for the Coast Infrastructure website.",
+  title: "Admin | Finecone Builders Limited",
+  description: "Manage project entries for the Finecone Builders Limited website.",
 };
 
 export default function AdminPage() {

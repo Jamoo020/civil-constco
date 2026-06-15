@@ -20,7 +20,7 @@ export default function Header() {
           href="/admin"
           className="text-xl font-bold transition hover:text-steel hover:underline hover:underline-offset-4"
         >
-          Coast Infrastructure
+          Finecone Builders Limited
         </Link>
 
         <button

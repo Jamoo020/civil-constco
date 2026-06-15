@@ -3,7 +3,7 @@ import Link from "next/link";
 import { posts } from "../../src/data/content";
 
 export const metadata = {
-  title: "Insights | Coast Infrastructure",
+  title: "Insights | Finecone Builders Limited",
   description: "Read the latest thinking on coastal infrastructure, road resilience and civil engineering delivery in Kenya.",
 };
 

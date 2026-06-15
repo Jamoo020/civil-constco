@@ -2,8 +2,8 @@ import React from "react";
 import { company } from "../../src/data/content";
 
 export const metadata = {
-  title: "Company | Coast Infrastructure",
-  description: "Learn about Coast Infrastructure's vision, mission and milestones for civil engineering and coastal delivery across Kenya.",
+  title: "Company | Finecone Builders Limited",
+  description: "Learn about Finecone Builders Limited's vision, mission and milestones as a Kilifi-headquartered coastal construction and civil engineering company serving coastal Kenya and nationwide clients.",
 };
 
 export const dynamic = "force-static";

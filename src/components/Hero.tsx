@@ -10,13 +10,13 @@ export default function Hero() {
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center">
           <div className="space-y-8">
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
-              <span className="inline-flex rounded-full bg-sand/15 px-4 py-2 text-sm uppercase tracking-[0.28em] text-sand">Coastal-headquartered engineering excellence</span>
+              <span className="inline-flex rounded-full bg-sand/15 px-4 py-2 text-sm uppercase tracking-[0.28em] text-sand">Kilifi-headquartered coastal engineering excellence</span>
             </motion.div>
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-4xl md:text-6xl font-extrabold leading-tight">
               Building resilient infrastructure for the Coast and beyond.
             </motion.h1>
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="max-w-2xl text-xl text-gray-200 leading-relaxed">
-              Delivering roadworks, coastal infrastructure, commercial developments and public works across Mombasa, Kilifi, Malindi and the Coast region — with capability to serve nationwide projects through local engineering leadership.
+              Delivering roadworks, coastal infrastructure, commercial developments and public works across the Kenyan Coast — from Kilifi to Mombasa, Malindi and beyond — with capability to serve nationwide projects through local engineering leadership.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="flex flex-col sm:flex-row gap-4">
               <Link href="/projects" className="inline-flex items-center justify-center rounded-full bg-sand px-6 py-3 text-sm font-semibold uppercase text-steel shadow-lg shadow-sand/20">

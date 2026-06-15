@@ -1,7 +1,7 @@
 # SEO Optimization Implementation Guide
 
 ## Overview
-This document details all SEO optimizations implemented for Coast Infrastructure website.
+This document details all SEO optimizations implemented for Finecone Builders Limited website.
 
 ---
 

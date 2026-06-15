@@ -2,8 +2,8 @@ import React from "react";
 import ContactForm from "../../src/components/ContactForm";
 
 export const metadata = {
-  title: "Contact | Coast Infrastructure",
-  description: "Get in touch with Coast Infrastructure for civil engineering, coastal construction and regional delivery across Kenya.",
+  title: "Contact | Finecone Builders Limited",
+  description: "Get in touch with Finecone Builders Limited for civil engineering, coastal construction and regional delivery across Kenya.",
 };
 
 export const dynamic = "force-static";
@@ -16,16 +16,16 @@ export default function ContactPage() {
         <ContactForm />
 
         <aside className="rounded-3xl border border-gray-200 bg-slate-50 p-8 shadow-sm">
-          <h3 className="text-xl font-semibold">Our offices</h3>
+          <h3 className="text-xl font-semibold">Service regions</h3>
           <ul className="mt-4 space-y-3 text-gray-700">
             <li>
-              <strong>Mombasa</strong> – Main office for coastal infrastructure, port-support works and regional delivery.
+              <strong>Kilifi</strong> – Headquartered in Kilifi with coastal construction delivery, drainage, roads and site engineering.
             </li>
             <li>
-              <strong>Kilifi</strong> – Site engineering office for drainage, roads and development projects.
+              <strong>Mombasa</strong> – Local delivery capacity for port infrastructure, coastal roadworks and commercial development.
             </li>
             <li>
-              <strong>Malindi</strong> – Local presence for shoreline protection, tourism corridor works and community access.
+              <strong>Malindi</strong> – Regional support for shoreline protection, tourism corridor projects and community access.
             </li>
           </ul>
           <div className="mt-6 rounded-2xl bg-white p-4 text-sm text-gray-700 shadow-sm">

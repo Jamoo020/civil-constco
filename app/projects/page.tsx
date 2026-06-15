@@ -3,7 +3,7 @@ import { getProjects } from "../../src/data/projects";
 import Filters from "../../src/components/Filters";
 
 export const metadata = {
-  title: "Projects | Coast Infrastructure",
+  title: "Projects | Finecone Builders Limited",
   description: "Browse Civil and Construction projects completed across the Kenyan Coast, highways, ports, and coastal communities.",
 };
 

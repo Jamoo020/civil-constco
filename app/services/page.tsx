@@ -4,7 +4,7 @@ import { services } from "../../src/data/content";
 import ServiceIcon from "../../src/components/ServiceIcon";
 
 export const metadata = {
-  title: "Services | Coast Infrastructure",
+  title: "Services | Finecone Builders Limited",
   description: "Explore our civil engineering and road construction services, delivered with coastal resilience and national capacity.",
 };
 

@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: { slug: string } | 
   }
 
   return {
-    title: `${post.title} | Insights | Coast Infrastructure`,
+    title: `${post.title} | Insights | Finecone Builders Limited`,
     description: post.excerpt,
   };
 }

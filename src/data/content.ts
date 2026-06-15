@@ -161,15 +161,15 @@ export const services = [
 export const locations = [
   {
     slug: "mombasa",
-    title: "Civil engineering company in Mombasa",
-    description: "Local construction specialists delivering roadworks, port infrastructure and coastal resilience projects across Mombasa with deep site experience.",
-    content: "Our Mombasa team focuses on delivering port-support civil works, coastal protection, commercial development infrastructure and road upgrades for the busiest urban corridor on the Kenyan Coast.",
+    title: "Civil engineering and construction services for Mombasa",
+    description: "Finecone Builders Limited delivers coastal roadworks, port infrastructure and resilient civil engineering services across Mombasa.",
+    content: "Finecone Builders Limited serves Mombasa with port-support civil works, coastal protection, commercial development infrastructure and road upgrades for the busiest urban corridor on the Kenyan Coast.",
     focus: ["Coastal roads and port access upgrades", "Seawall and shoreline protection", "Commercial and public works construction"]
   },
   {
     slug: "kilifi",
-    title: "Civil engineering company in Kilifi",
-    description: "Engineering and site delivery for Kilifi county, including drainage, earthworks and resilient infrastructure for local communities and resort developments.",
+    title: "Civil engineering and construction company in Kilifi",
+    description: "Kilifi-based construction experts delivering drainage, earthworks, coastal infrastructure and resilient roadworks for communities and tourism projects.",
     content: "In Kilifi we provide trusted civil engineering and construction services for drainage, earthworks, access roads and sustainable infrastructure serving both tourism and residential growth areas.",
     focus: ["Urban and rural drainage solutions", "Flood-resistant road construction", "Site development and earthworks"]
   },
@@ -495,7 +495,7 @@ export const posts = [
 ];
 
 export const company = {
-  name: "Coast Infrastructure Ltd",
+  name: "Finecone Builders Limited",
   founded: 2010,
   areas: ["Mombasa", "Kilifi", "Malindi", "Kwale", "Nationwide"],
   vision: "To be the leading civil engineering partner in East Africa, delivering resilient, sustainable and safe projects from our Coast headquarters to nationwide clients.",
@@ -536,31 +536,31 @@ export const processSteps = [
 
 export const testimonials = [
   {
-    quote: "A major coastal protection project required innovative design and flawless execution. Coast Infrastructure coordinated every detail—from material testing to environmental safeguards—and delivered on time with exceptional quality.",
+    quote: "A major coastal protection project required innovative design and flawless execution. Finecone Builders Limited coordinated every detail—from material testing to environmental safeguards—and delivered on time with exceptional quality.",
     author: "Port Authority Director",
     location: "Mombasa",
     verified: true
   },
   {
-    quote: "We've worked with Coast Infrastructure on multiple county projects. Their discipline in scheduling, cost transparency, and on-site supervision consistently exceeds expectations. Even when site conditions change, they maintain clarity and quality.",
+    quote: "We've worked with Finecone Builders Limited on multiple county projects. Their discipline in scheduling, cost transparency, and on-site supervision consistently exceeds expectations. Even when site conditions change, they maintain clarity and quality.",
     author: "County Development Manager",
     location: "Coastal Region",
     verified: true
   },
   {
-    quote: "From tender to handover, Coast Infrastructure managed a complex drainage network across three zones. Their technical input solved design challenges, and their team kept the project moving through every weather season.",
+    quote: "From tender to handover, Finecone Builders Limited managed a complex drainage network across three zones. Their technical input solved design challenges, and their team kept the project moving through every weather season.",
     author: "Water Utilities Client",
     location: "Nationwide",
     verified: true
   },
   {
-    quote: "Working with Coast Infrastructure as a subcontractor has been seamless. Their documentation is clear, scope definitions are precise, and communication is always professional. Payment processes are timely and reliable.",
+    quote: "Working with Finecone Builders Limited as a subcontractor has been seamless. Their documentation is clear, scope definitions are precise, and communication is always professional. Payment processes are timely and reliable.",
     author: "Contractor Partner",
     location: "Kenya",
     verified: true
   },
   {
-    quote: "Coast Infrastructure rebuilt our district's access roads with remarkable resilience. Their teams understood local conditions, coordinated community needs, and delivered infrastructure that strengthens connectivity across our region.",
+    quote: "Finecone Builders Limited rebuilt our district's access roads with remarkable resilience. Their teams understood local conditions, coordinated community needs, and delivered infrastructure that strengthens connectivity across our region.",
     author: "District Administrator",
     location: "Inland Kenya",
     verified: true

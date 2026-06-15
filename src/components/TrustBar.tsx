@@ -5,7 +5,7 @@ export default function TrustBar() {
   return (
     <section className="bg-gradient-to-r from-steel to-coast/80 py-12">
       <div className="container space-y-6">
-        <h2 className="text-3xl font-bold text-white">Why Engineers & Developers Trust Coast Infrastructure</h2>
+        <h2 className="text-3xl font-bold text-white">Why Engineers & Developers Trust Finecone Builders Limited</h2>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {trustFactors.map((factor, idx) => (

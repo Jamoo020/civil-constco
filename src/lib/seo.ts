@@ -41,7 +41,7 @@ export function buildPageMeta({
             },
           ]
         : [],
-      siteName: "Coast Infrastructure",
+      siteName: "Finecone Builders Limited",
       locale: "en_KE",
     },
     twitter: {
@@ -187,7 +187,7 @@ export function projectSchema({
     dateCompleted,
     creator: {
       "@type": "Organization",
-      name: "Coast Infrastructure Ltd",
+      name: "Finecone Builders Limited",
     },
     client: client
       ? {

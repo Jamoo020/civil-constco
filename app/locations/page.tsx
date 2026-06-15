@@ -4,19 +4,21 @@ import { locations } from "../../src/data/content";
 import MapInteractive from "../../src/components/MapInteractive";
 
 export const metadata = {
-  title: "Locations | Coast Infrastructure",
-  description: "Based in Kilifi, Coast Infrastructure delivers civil engineering and construction across all 47 counties of Kenya.",
+  title: "Locations | Finecone Builders Limited",
+  description: "Finecone Builders Limited is a coastal construction company based in Kilifi, serving the Kenyan Coast and all 47 counties with civil engineering, roadworks and coastal infrastructure.",
   keywords: [
-    "Kilifi engineering company",
+    "Kilifi construction company",
+    "Mombasa construction contractor",
+    "Kenya coastal construction",
     "Kenya infrastructure contractor",
     "civil engineering offices Kenya",
     "regional delivery hubs",
     "coastal infrastructure"
   ],
   openGraph: {
-    title: "Locations | Coast Infrastructure",
-    description: "Based in Kilifi, Coast Infrastructure delivers civil engineering and construction across all 47 counties of Kenya.",
-    siteName: "Coast Infrastructure",
+    title: "Locations | Finecone Builders Limited",
+    description: "Finecone Builders Limited is a coastal construction company based in Kilifi, delivering civil engineering, roadworks and coastal infrastructure across Mombasa, Kilifi, Malindi, Kwale and all 47 counties.",
+    siteName: "Finecone Builders Limited",
     type: "website"
   }
 };
@@ -27,7 +29,7 @@ export default function LocationsPage() {
     <div className="container py-12">
       <h1 className="text-4xl font-bold mb-4">Locations</h1>
       <p className="text-gray-600 mb-8">
-        Coast Infrastructure is headquartered in Kilifi and delivers civil engineering and construction across all 47 counties in Kenya.
+        Finecone Builders Limited is headquartered in Kilifi and delivers civil engineering and construction across all 47 counties in Kenya.
       </p>
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_0.9fr] mb-10">

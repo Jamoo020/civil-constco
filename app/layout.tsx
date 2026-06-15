@@ -7,15 +7,16 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   metadataBase: new URL("https://coastinfrastructure.co.ke"),
   title: {
-    default: "Coast Infrastructure | Civil Engineering & Construction Kenya",
-    template: "%s | Coast Infrastructure"
+    default: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
+    template: "%s | Finecone Builders Limited"
   },
-  description: "Professional civil engineering and construction services across Kenya. Based in Mombasa, delivering resilient infrastructure with technical excellence, transparent processes, and proven nationwide delivery.",
+  description: "Professional civil engineering and construction services across Kenya. Headquartered in Kilifi, delivering resilient coastal infrastructure with technical excellence, transparent processes, and proven nationwide delivery.",
   keywords: [
     "civil engineering Kenya",
+    "Kilifi construction company",
     "construction contractor Kenya",
     "infrastructure delivery",
-    "coastal engineering Mombasa",
+    "coastal engineering Kenya",
     "road construction Kenya",
     "drainage systems",
     "bridge construction",
@@ -35,21 +36,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_KE",
     url: "https://coastinfrastructure.co.ke",
-    siteName: "Coast Infrastructure",
-    title: "Coast Infrastructure | Civil Engineering & Construction Kenya",
-    description: "Professional civil engineering and construction services across Kenya. Technical excellence, transparent processes, nationwide delivery.",
+    siteName: "Finecone Builders Limited",
+    title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
+    description: "Finecone Builders Limited is a Kilifi-headquartered coastal construction company delivering civil engineering and infrastructure across the Kenyan Coast and all 47 counties.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Coast Infrastructure - Civil Engineering & Construction"
+        alt: "Finecone Builders Limited - Civil Engineering & Construction"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Coast Infrastructure | Civil Engineering & Construction Kenya",
+    title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
     description: "Professional civil engineering and construction services across Kenya.",
     creator: "@coastinfra"
   },
@@ -57,9 +58,9 @@ export const metadata: Metadata = {
     canonical: "https://coastinfrastructure.co.ke"
   },
   viewport: "width=device-width, initial-scale=1.0, maximum-scale=5.0",
-  authors: [{ name: "Coast Infrastructure Ltd" }],
-  creator: "Coast Infrastructure Ltd",
-  publisher: "Coast Infrastructure Ltd"
+  authors: [{ name: "Finecone Builders Limited" }],
+  creator: "Finecone Builders Limited",
+  publisher: "Finecone Builders Limited"
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -80,7 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "Coast Infrastructure Ltd",
+              name: "Finecone Builders Limited",
               url: "https://coastinfrastructure.co.ke",
               logo: "https://coastinfrastructure.co.ke/logo.png",
               description: "Professional civil engineering and construction services across Kenya",
@@ -90,8 +91,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               ],
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "Mombasa",
-                addressLocality: "Mombasa",
+                streetAddress: "Kilifi",
+                addressLocality: "Kilifi",
                 addressRegion: "Coastal",
                 postalCode: "80100",
                 addressCountry: "KE"

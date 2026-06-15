@@ -11,13 +11,17 @@ import ProjectCard from "../src/components/ProjectCard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Coast Infrastructure | Civil Engineering & Construction Kenya",
-  description: "Professional civil engineering and construction services across all 47 Kenyan counties. Based in Mombasa, delivering resilient infrastructure with technical excellence and transparency.",
+  title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
+  description: "Finecone Builders Limited is a Kilifi-headquartered coastal construction company delivering civil engineering, roadworks and infrastructure across Kilifi, Mombasa, Kwale, Malindi and all 47 Kenyan counties.",
   keywords: [
     "civil engineering Kenya",
+    "construction company Kilifi",
+    "coastal construction company Kenya",
+    "coastal construction services Kenya",
+    "construction contractor Kilifi",
     "construction contractor Kenya",
     "infrastructure delivery",
-    "coastal engineering Mombasa",
+    "coastal engineering Kenya",
     "road construction Kenya",
     "drainage systems Kenya",
     "bridge construction",
@@ -30,24 +34,24 @@ export const metadata: Metadata = {
     canonical: "https://coastinfrastructure.co.ke"
   },
   openGraph: {
-    title: "Coast Infrastructure | Civil Engineering & Construction Kenya",
-    description: "Professional civil engineering and construction services across Kenya. Technical excellence, transparent processes, nationwide delivery.",
+    title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
+    description: "Finecone Builders Limited is a Kilifi-headquartered coastal construction company delivering civil engineering and infrastructure across the Kenyan Coast and all 47 counties.",
     type: "website",
     url: "https://coastinfrastructure.co.ke",
-    siteName: "Coast Infrastructure",
+    siteName: "Finecone Builders Limited",
     locale: "en_KE",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Coast Infrastructure - Civil Engineering & Construction Services"
+        alt: "Finecone Builders Limited - Civil Engineering & Construction Services"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Coast Infrastructure | Civil Engineering & Construction Kenya",
+    title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
     description: "Professional civil engineering and construction services across Kenya."
   }
 };
@@ -63,7 +67,7 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": "https://coastinfrastructure.co.ke",
-    name: "Coast Infrastructure Ltd",
+    name: "Finecone Builders Limited",
     description: "Professional civil engineering and construction services across Kenya",
     url: "https://coastinfrastructure.co.ke",
     logo: "https://coastinfrastructure.co.ke/logo.png",
@@ -82,8 +86,8 @@ export default async function Home() {
     email: "info@coastinfrastructure.com",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Mombasa",
-      addressLocality: "Mombasa",
+      streetAddress: "Kilifi",
+      addressLocality: "Kilifi",
       addressRegion: "Coastal",
       postalCode: "80100",
       addressCountry: "KE"
@@ -142,7 +146,7 @@ export default async function Home() {
         <div className="space-y-3">
           <h2 className="text-4xl font-bold">Ready to Discuss Your Project?</h2>
           <p className="text-lg text-gray-600">
-            Contact our team to explore how Coast Infrastructure can deliver your infrastructure with discipline, transparency, and technical excellence.
+            Contact our team to explore how Finecone Builders Limited can deliver your infrastructure with discipline, transparency, and technical excellence.
           </p>
         </div>
         <div className="flex justify-center gap-4">
