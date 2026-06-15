@@ -60,8 +60,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/careers" className="hover:text-amber-400 transition">
-                  Careers
+                <Link href="/blog" className="hover:text-amber-400 transition">
+                  Insights
                 </Link>
               </li>
             </ul>
