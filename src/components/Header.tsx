@@ -18,7 +18,7 @@ export default function Header() {
       <div className="container flex items-center justify-between py-4">
         <Link
           href="/admin"
-          className="text-xl font-bold transition hover:text-steel hover:underline hover:underline-offset-4"
+          className="text-2xl md:text-3xl font-bold transition hover:text-steel hover:underline hover:underline-offset-4"
         >
           Finecone Builders Limited
         </Link>
