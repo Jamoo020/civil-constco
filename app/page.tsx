@@ -29,7 +29,6 @@ export const metadata: Metadata = {
     "site supervision",
     "engineering services nationwide"
   ],
-  canonical: "https://fineconebuilders.co.ke",
   alternates: {
     canonical: "https://fineconebuilders.co.ke"
   },
