@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 const navItems = [
+  { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
   { href: "/services", label: "Services" },
   { href: "/company", label: "Company" },
@@ -17,7 +18,7 @@ export default function Header() {
     <header className="w-full border-b bg-white sticky top-0 z-30 shadow-sm">
       <div className="container flex items-center justify-between py-4">
         <Link
-          href="/"
+          href="/admin"
           className="text-xl font-bold transition hover:text-steel hover:underline hover:underline-offset-4"
         >
           Coast Infrastructure
