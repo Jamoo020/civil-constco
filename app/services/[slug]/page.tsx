@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { services } from "../../../src/data/content";
+import ServiceImage from "../../../src/components/ServiceImage";
+import { serviceImages } from "../../../src/data/service-images";
 import { getRelatedServices } from "../../../src/data/service-taxonomy";
 
 type ServiceParams = {
@@ -80,6 +82,7 @@ export default async function ServicePage({
   }
 
   const relatedServices = getRelatedServices(service.slug);
+  const serviceImage = serviceImages[service.slug];
 
   return (
     <>
@@ -111,13 +114,21 @@ export default async function ServicePage({
             </ol>
           </nav>
 
-          <div className="mt-12 max-w-4xl md:mt-16">
-            <h1 className="mt-4 text-4xl font-semibold leading-tight text-brand-navy sm:text-5xl md:text-6xl">
-              {service.title}
-            </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-brand-muted md:text-xl">
-              {service.excerpt}
-            </p>
+          <div className="mt-10 grid items-center gap-8 md:mt-14 md:grid-cols-2 md:gap-10 lg:gap-14">
+            <div className="min-w-0">
+              <h1 className="mt-4 text-4xl font-semibold leading-tight text-brand-navy sm:text-5xl md:text-5xl lg:text-6xl">
+                {service.title}
+              </h1>
+              <p className="mt-6 max-w-3xl text-lg leading-relaxed text-brand-muted md:text-xl">
+                {service.excerpt}
+              </p>
+            </div>
+            <ServiceImage
+              src={serviceImage.src}
+              alt={serviceImage.alt}
+              priority
+              fit={serviceImage.fit}
+            />
           </div>
         </div>
       </header>
