@@ -1,249 +1,174 @@
-import fs from "fs/promises";
-import path from "path";
 import { NextRequest, NextResponse } from "next/server";
+import { authorizeAdminRequest } from "../../../../src/lib/admin-security";
+import {
+  createProject,
+  createProjectStore,
+  deleteProject,
+  updateProject,
+} from "../../../../src/lib/project-data";
+import { ProjectDataError } from "../../../../src/lib/project-validation";
 
-type Project = {
-  slug: string;
-  title: string;
-  location: string;
-  year: number;
-  type: string;
-  featured: boolean;
-  client: string;
-  overview: string;
-  image?: string;
-  images: string[];
-  scope: string[];
-  impact: string;
-};
+export const runtime = "nodejs";
 
-const projectsFile = path.join(process.cwd(), "src/data/projects.json");
+const MAX_REQUEST_BYTES = 1024 * 1024;
+const projectStore = createProjectStore();
+const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-async function readProjects(): Promise<Project[]> {
-  const token = process.env.GITHUB_TOKEN;
-  const repo = process.env.GITHUB_REPO;
-  if (token && repo) {
-    const apiBase = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent("src/data/projects.json")}`;
-    const res = await fetch(apiBase, {
-      headers: {
-        Authorization: `token ${token}`,
-        Accept: "application/vnd.github+json",
-      },
-      cache: "no-store",
-    });
-
-    if (res.ok) {
-      const json = await res.json();
-      const content = Buffer.from(json.content, json.encoding).toString("utf8");
-      return JSON.parse(content) as Project[];
+async function readJsonBody(request: NextRequest): Promise<
+  | { value: unknown }
+  | { error: string; status: number }
+> {
+  const contentLength = request.headers.get("content-length");
+  if (contentLength !== null) {
+    if (!/^\d+$/.test(contentLength)) {
+      return { error: "Invalid content length.", status: 400 };
     }
-
-    const errorText = await res.text();
-    throw new Error(`GitHub read failed: ${res.status} ${errorText}`);
+    if (Number(contentLength) > MAX_REQUEST_BYTES) {
+      return { error: "Request is too large.", status: 413 };
+    }
   }
 
-  const file = await fs.readFile(projectsFile, "utf8");
-  return JSON.parse(file) as Project[];
+  if (!request.body) {
+    return { error: "Invalid request payload.", status: 400 };
+  }
+
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > MAX_REQUEST_BYTES) {
+        await reader.cancel();
+        return { error: "Request is too large.", status: 413 };
+      }
+      chunks.push(value);
+    }
+  } catch {
+    return { error: "Unable to read request payload.", status: 400 };
+  }
+
+  try {
+    const body = new Uint8Array(totalBytes);
+    let offset = 0;
+    for (const chunk of chunks) {
+      body.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    return { value: JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(body)) };
+  } catch {
+    return { error: "Invalid JSON request payload.", status: 400 };
+  }
 }
 
-async function readProjectsFromFilesystem(): Promise<Project[]> {
-  return readProjects();
+function errorResponse(error: unknown, fallbackMessage: string) {
+  if (error instanceof ProjectDataError) {
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status, headers: { "Cache-Control": "no-store" } }
+    );
+  }
+
+  console.error(fallbackMessage);
+  return NextResponse.json(
+    { error: fallbackMessage },
+    { status: 500, headers: { "Cache-Control": "no-store" } }
+  );
 }
 
-async function commitProjectsToGitHub(projects: Project[]) {
-  const token = process.env.GITHUB_TOKEN;
-  const repo = process.env.GITHUB_REPO; // format: owner/repo
-  if (!token || !repo) throw new Error("GitHub not configured");
-
-  const pathOnRepo = "src/data/projects.json";
-  const apiBase = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(pathOnRepo)}`;
-
-  // Get current file to obtain sha
-  const getRes = await fetch(apiBase, { headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" } });
-  let sha: string | undefined;
-  if (getRes.ok) {
-    const json = await getRes.json();
-    sha = json.sha;
-  }
-
-  const content = Buffer.from(JSON.stringify(projects, null, 2)).toString("base64");
-  const commitRes = await fetch(apiBase, {
-    method: "PUT",
-    headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
-    body: JSON.stringify({ message: "Update projects via admin interface", content, sha }),
-  });
-
-  if (!commitRes.ok) {
-    const text = await commitRes.text();
-    throw new Error(`GitHub commit failed: ${text}`);
-  }
-
-  return true;
+function isValidSlug(slug: string | null): slug is string {
+  return Boolean(slug && slug.length <= 160 && slugPattern.test(slug));
 }
 
-async function persistProjects(projects: Project[]) {
-  const isVercel = Boolean(process.env.VERCEL);
-  const hasGitHub = Boolean(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO);
+export async function GET(request: NextRequest) {
+  const authorization = authorizeAdminRequest(request);
+  if ("response" in authorization) return authorization.response;
 
-  if (hasGitHub) {
-    return await commitProjectsToGitHub(projects);
+  try {
+    const projects = await projectStore.read();
+    return NextResponse.json(
+      { projects },
+      { headers: { "Cache-Control": "no-store" } }
+    );
+  } catch (error) {
+    return errorResponse(error, "Unable to load projects.");
   }
-
-  if (isVercel) {
-    throw new Error("Project persistence on Vercel requires GITHUB_TOKEN and GITHUB_REPO. Please set both environment variables in Vercel and redeploy.");
-  }
-
-  return fs.writeFile(projectsFile, JSON.stringify(projects, null, 2), "utf8");
-}
-
-function createSlug(title: string) {
-  return title
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "-");
-}
-
-function validateProject(body: any): { project?: Project; error?: string } {
-  if (!body || typeof body !== "object") {
-    return { error: "Invalid request payload." };
-  }
-
-  const title = String(body.title || "").trim();
-  const location = String(body.location || "").trim();
-  const year = Number(body.year);
-  const overview = String(body.overview || "").trim();
-  const type = String(body.type || "General").trim();
-  const client = String(body.client || "").trim();
-  const featured = Boolean(body.featured);
-  const impact = String(body.impact || "").trim();
-  const image = String(body.image || "").trim();
-  const images = Array.isArray(body.images)
-    ? (body.images as unknown[]).map((item) => String(item).trim()).filter(Boolean)
-    : String(body.images || "")
-        .split("\n")
-        .map((item) => item.trim())
-        .filter(Boolean);
-  const scope = Array.isArray(body.scope)
-    ? (body.scope as unknown[]).map((item) => String(item).trim()).filter(Boolean)
-    : String(body.scope || "")
-        .split("\n")
-        .map((item) => item.trim())
-        .filter(Boolean);
-
-  if (!title) {
-    return { error: "Project title is required." };
-  }
-  if (!location) {
-    return { error: "Location is required." };
-  }
-  if (!overview) {
-    return { error: "Overview is required." };
-  }
-  if (!scope.length) {
-    return { error: "At least one scope item is required." };
-  }
-  if (!year || Number.isNaN(year) || year < 1800 || year > 2100) {
-    return { error: "Year must be a valid number." };
-  }
-
-  const slug = body.slug ? String(body.slug).trim() : createSlug(title);
-
-  return {
-    project: {
-      slug,
-      title,
-      location,
-      year,
-      type,
-      featured,
-      client,
-      overview,
-      image: image || undefined,
-      images,
-      scope,
-      impact,
-    },
-  };
-}
-
-export async function GET() {
-  // Prefer reading from filesystem (source of truth in repo), GitHub reading is only for commits
-  const projects = await readProjectsFromFilesystem();
-  return NextResponse.json({ projects });
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json().catch(() => null);
-  const validation = validateProject(body);
-  if (validation.error) {
-    return NextResponse.json({ error: validation.error }, { status: 400 });
+  const authorization = authorizeAdminRequest(request, true);
+  if ("response" in authorization) return authorization.response;
+
+  if (request.headers.get("content-type")?.split(";")[0] !== "application/json") {
+    return NextResponse.json(
+      { error: "Unsupported request format." },
+      { status: 415 }
+    );
   }
 
-  const projects = await readProjects();
-  const existing = projects.find((project) => project.slug === validation.project!.slug);
-  if (existing) {
-    return NextResponse.json({ error: "A project with the same slug already exists. Use edit instead." }, { status: 409 });
+  const parsed = await readJsonBody(request);
+  if ("error" in parsed) {
+    return NextResponse.json({ error: parsed.error }, { status: parsed.status });
   }
-
-  projects.unshift(validation.project!);
 
   try {
-    await persistProjects(projects);
-  } catch (err: any) {
-    return NextResponse.json({ error: err?.message || "Unable to persist projects." }, { status: 500 });
+    const project = await createProject(projectStore, parsed.value);
+    return NextResponse.json({ success: true, project });
+  } catch (error) {
+    return errorResponse(error, "Unable to save project.");
   }
-
-  return NextResponse.json({ success: true, project: validation.project });
 }
 
 export async function PUT(request: NextRequest) {
-  const params = new URL(request.url).searchParams;
-  const slug = params.get("slug")?.trim();
-  if (!slug) {
-    return NextResponse.json({ error: "Project slug is required for update." }, { status: 400 });
+  const authorization = authorizeAdminRequest(request, true);
+  if ("response" in authorization) return authorization.response;
+
+  if (request.headers.get("content-type")?.split(";")[0] !== "application/json") {
+    return NextResponse.json(
+      { error: "Unsupported request format." },
+      { status: 415 }
+    );
   }
 
-  const body = await request.json().catch(() => null);
-  const validation = validateProject({ ...body, slug });
-  if (validation.error) {
-    return NextResponse.json({ error: validation.error }, { status: 400 });
+  const slug = new URL(request.url).searchParams.get("slug")?.trim() ?? null;
+  if (!isValidSlug(slug)) {
+    return NextResponse.json(
+      { error: "A valid project slug is required for update." },
+      { status: 400 }
+    );
   }
 
-  const projects = await readProjects();
-  const index = projects.findIndex((project) => project.slug === slug);
-  if (index === -1) {
-    return NextResponse.json({ error: "Project not found." }, { status: 404 });
+  const parsed = await readJsonBody(request);
+  if ("error" in parsed) {
+    return NextResponse.json({ error: parsed.error }, { status: parsed.status });
   }
-
-  projects[index] = validation.project!;
 
   try {
-    await persistProjects(projects);
-  } catch (err: any) {
-    return NextResponse.json({ error: err?.message || "Unable to persist projects." }, { status: 500 });
+    const project = await updateProject(projectStore, slug, parsed.value);
+    return NextResponse.json({ success: true, project });
+  } catch (error) {
+    return errorResponse(error, "Unable to update project.");
   }
-
-  return NextResponse.json({ success: true, project: validation.project });
 }
 
 export async function DELETE(request: NextRequest) {
-  const params = new URL(request.url).searchParams;
-  const slug = params.get("slug")?.trim();
-  if (!slug) {
-    return NextResponse.json({ error: "Project slug is required for deletion." }, { status: 400 });
+  const authorization = authorizeAdminRequest(request, true);
+  if ("response" in authorization) return authorization.response;
+
+  const slug = new URL(request.url).searchParams.get("slug")?.trim() ?? null;
+  if (!isValidSlug(slug)) {
+    return NextResponse.json(
+      { error: "A valid project slug is required for deletion." },
+      { status: 400 }
+    );
   }
 
-  const projects = await readProjects();
-  const updated = projects.filter((project) => project.slug !== slug);
-  if (updated.length === projects.length) {
-    return NextResponse.json({ error: "Project not found." }, { status: 404 });
-  }
   try {
-    await persistProjects(updated);
-  } catch (err: any) {
-    return NextResponse.json({ error: err?.message || "Unable to persist projects." }, { status: 500 });
+    await deleteProject(projectStore, slug);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return errorResponse(error, "Unable to delete project.");
   }
-
-  return NextResponse.json({ success: true });
 }

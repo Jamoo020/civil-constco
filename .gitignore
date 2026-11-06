@@ -3,6 +3,8 @@ node_modules
 dist
 coverage
 /.env
+/.data/
+/public/uploads/
 
 # Ignore development and build logs
 *.log

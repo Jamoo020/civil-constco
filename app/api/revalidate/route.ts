@@ -1,22 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { authorizeAdminRequest } from "../../../src/lib/admin-security";
 
-const SECRET = process.env.REVALIDATE_SECRET || "default-revalidate-secret";
+export const runtime = "nodejs";
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = request.nextUrl;
-  const secret = searchParams.get("secret");
-  const path = searchParams.get("path");
+const publicPagePaths = new Set([
+  "/",
+  "/projects",
+  "/services",
+  "/company",
+  "/locations",
+  "/contact",
+  "/careers",
+  "/blog",
+]);
 
-  if (!secret || secret !== SECRET) {
-    return NextResponse.json({ message: "Invalid secret." }, { status: 401 });
+function isAllowedPath(value: unknown): value is string {
+  if (typeof value !== "string" || !value.startsWith("/") || value.includes("%")) {
+    return false;
+  }
+  if (publicPagePaths.has(value)) return true;
+  return /^\/(projects|services|locations|blog)\/[a-z0-9-]+$/.test(value);
+}
+
+export async function POST(request: NextRequest) {
+  const authorization = authorizeAdminRequest(request, true);
+  if ("response" in authorization) return authorization.response;
+
+  if (request.headers.get("content-type")?.split(";")[0] !== "application/json") {
+    return NextResponse.json(
+      { error: "Unsupported request format." },
+      { status: 415 }
+    );
   }
 
-  if (!path) {
-    return NextResponse.json({ message: "Missing path parameter." }, { status: 400 });
+  const body = await request.json().catch(() => null);
+  const routePath =
+    body && typeof body === "object" ? body.path : undefined;
+  if (!isAllowedPath(routePath)) {
+    return NextResponse.json(
+      { error: "Path is not eligible for revalidation." },
+      { status: 400 }
+    );
   }
 
-  revalidatePath(path);
-
-  return NextResponse.json({ revalidated: true, path });
+  revalidatePath(routePath);
+  return NextResponse.json({ revalidated: true, path: routePath });
 }

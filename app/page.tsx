@@ -1,162 +1,104 @@
-import React from "react";
-import Hero from "../src/components/Hero";
-import StatsPanel from "../src/components/StatsPanel";
-import RegionMap from "../src/components/RegionMap";
-import ProcessJourney from "../src/components/ProcessJourney";
-import TeamExpertise from "../src/components/TeamExpertise";
-import TestimonialSection from "../src/components/TestimonialSection";
-import TrustBar from "../src/components/TrustBar";
-import { getProjects } from "../src/data/projects";
-import ProjectCard from "../src/components/ProjectCard";
 import type { Metadata } from "next";
+import Link from "next/link";
+import Hero from "../src/components/Hero";
+import ProcessJourney from "../src/components/ProcessJourney";
+import ServiceOverview from "../src/components/ServiceOverview";
+
+const primaryUrl = "https://civil-constco.vercel.app";
 
 export const metadata: Metadata = {
-  title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
-  description: "Finecone Builders Limited is a Kilifi-headquartered coastal construction company delivering civil engineering, roadworks and infrastructure across Kilifi, Mombasa, Kwale, Malindi and all 47 Kenyan counties.",
+  metadataBase: new URL(primaryUrl),
+  title: "Finecon Builders Limited | Building Design & Construction",
+  description:
+    "Explore Finecon Builders Limited's building design, construction, renovation, interior design, site supervision and structural design services.",
   keywords: [
-    "civil engineering Kenya",
-    "construction company Kilifi",
-    "coastal construction company Kenya",
-    "coastal construction services Kenya",
-    "construction contractor Kilifi",
-    "construction contractor Kenya",
-    "infrastructure delivery",
-    "coastal engineering Kenya",
-    "road construction Kenya",
-    "drainage systems Kenya",
-    "bridge construction",
-    "water infrastructure",
+    "architectural design",
+    "building construction",
+    "general construction",
+    "interior design",
     "site supervision",
-    "engineering services nationwide"
+    "structural design",
   ],
   alternates: {
-    canonical: "https://fineconebuilders.co.ke"
+    canonical: primaryUrl,
   },
   openGraph: {
-    title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
-    description: "Finecone Builders Limited is a Kilifi-headquartered coastal construction company delivering civil engineering and infrastructure across the Kenyan Coast and all 47 counties.",
+    title: "Finecon Builders Limited | Building Design & Construction",
+    description:
+      "Explore Finecon Builders Limited's building design, construction, renovation, interior design, site supervision and structural design services.",
     type: "website",
-    url: "https://fineconebuilders.co.ke",
-    siteName: "Finecone Builders Limited",
+    url: primaryUrl,
+    siteName: "Finecon Builders Limited",
     locale: "en_KE",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Finecone Builders Limited - Civil Engineering & Construction Services"
-      }
-    ]
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
-    description: "Professional civil engineering and construction services across Kenya."
-  }
+    card: "summary",
+    title: "Finecon Builders Limited | Building Design & Construction",
+    description:
+      "Building design, construction, renovation, interior design, site supervision and structural design services.",
+  },
 };
 
 export const dynamic = "force-static";
 
-export default async function Home() {
-  const projects = await getProjects();
-  const featured = projects.filter((p) => p.featured).slice(0, 3);
-
-  // JSON-LD Schema for LocalBusiness/Service
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": "https://fineconebuilders.co.ke",
-    name: "Finecone Builders Limited",
-    description: "Professional civil engineering and construction services across Kenya",
-    url: "https://fineconebuilders.co.ke",
-    logo: "https://fineconebuilders.co.ke/logo.png",
-    areaServed: {
-      "@type": "Country",
-      name: "Kenya"
-    },
-    serviceArea: [
-      "Mombasa",
-      "Kilifi",
-      "Malindi",
-      "Kwale",
-      "Kenya"
-    ],
-    telephone: "+254731300089",
-    email: "info@fineconebuilders.co.ke",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Kilifi",
-      addressLocality: "Kilifi",
-      addressRegion: "Coastal",
-      postalCode: "80100",
-      addressCountry: "KE"
-    },
-    priceRange: "$$"
-  };
-
+export default function Home() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-      <section className="space-y-0">
-        <Hero />
-        <StatsPanel />
+      <Hero />
 
-        {/* Featured Projects Section */}
-        <div className="relative bg-gradient-to-b from-slate-50/50 to-transparent py-16">
-          {/* Subtle background pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_24%,rgba(14,116,144,.02)_25%,rgba(14,116,144,.02)_26%,transparent_27%,transparent_74%,rgba(14,116,144,.02)_75%,rgba(14,116,144,.02)_76%,transparent_77%,transparent)] bg-[length:100px_100px] pointer-events-none" />
-          <div className="container space-y-8 relative z-10">
-            <div className="space-y-3">
-              <p className="text-sm uppercase tracking-widest text-gray-500">Our Work</p>
-              <h2 className="text-4xl font-bold">Flagship Infrastructure Projects</h2>
-              <p className="text-lg text-gray-600 max-w-2xl">
-                Selected civil engineering and construction works demonstrating our technical capability and execution discipline across coastal and inland Kenya.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {featured.map((p) => (
-                <ProjectCard key={p.slug} project={p} />
-              ))}
+      <section className="bg-white py-20 md:py-28">
+        <div className="container grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-steel">
+              Company
+            </p>
+            <h2 className="mt-4 max-w-md text-3xl font-semibold leading-tight md:text-4xl">
+              Finecon Builders Limited
+            </h2>
+          </div>
+          <div className="max-w-2xl">
+            <p className="text-lg leading-relaxed text-slate-700">
+              Explore building design and construction services, learn more
+              about Finecon, or view the locations
+              information available on this site.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-x-8 gap-y-3 text-sm font-semibold text-steel">
+              <Link className="underline underline-offset-4" href="/company">
+                About the company
+              </Link>
+              <Link className="underline underline-offset-4" href="/locations">
+                Locations information
+              </Link>
             </div>
           </div>
         </div>
-
-        {/* Process Journey */}
-        <ProcessJourney />
-
-        {/* Team Expertise */}
-        <TeamExpertise />
-
-        {/* Regional Coverage */}
-        <RegionMap />
-
-        {/* Testimonials */}
-        <TestimonialSection />
-
-        {/* Trust Bar */}
-        <TrustBar />
-
-      {/* CTA Section */}
-      <section className="container py-16 text-center space-y-6">
-        <div className="space-y-3">
-          <h2 className="text-4xl font-bold">Ready to Discuss Your Project?</h2>
-          <p className="text-lg text-gray-600">
-            Contact our team to explore how Finecone Builders Limited can deliver your infrastructure with discipline, transparency, and technical excellence.
-          </p>
-        </div>
-        <div className="flex justify-center gap-4">
-          <a href="/contact" className="inline-flex items-center px-8 py-3 rounded-full bg-steel text-white font-semibold hover:bg-steel/90 transition">
-            Get In Touch
-          </a>
-          <a href="/services" className="inline-flex items-center px-8 py-3 rounded-full border-2 border-steel text-steel font-semibold hover:bg-slate-50 transition">
-            View Services
-          </a>
-        </div>
       </section>
+
+      <ServiceOverview />
+
+      <ProcessJourney />
+
+      <section className="bg-brand-navy py-20 text-white md:py-24">
+        <div className="container flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">
+              Enquiries
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight text-white md:text-5xl">
+              Discuss your next project with Finecon.
+            </h2>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-200">
+              Contact the team to discuss a building design, construction or
+              renovation enquiry.
+            </p>
+          </div>
+          <Link
+            href="/contact"
+            className="button-primary w-fit border-white bg-white text-brand-navy hover:border-slate-200 hover:bg-slate-200"
+          >
+            Contact Finecon
+          </Link>
+        </div>
       </section>
     </>
   );

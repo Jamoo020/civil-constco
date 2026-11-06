@@ -3,7 +3,7 @@ $urls = @(
     'http://localhost:3000/projects',
     'http://localhost:3000/projects/mombasa-coastal-road',
     'http://localhost:3000/services',
-    'http://localhost:3000/services/civil-engineering',
+    'http://localhost:3000/services/architectural-design',
     'http://localhost:3000/blog',
     'http://localhost:3000/blog/coastal-infrastructure-resilience',
     'http://localhost:3000/company',

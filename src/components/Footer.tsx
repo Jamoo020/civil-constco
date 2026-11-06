@@ -4,104 +4,73 @@ import Link from "next/link";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  
+
   return (
-    <footer className="w-full bg-slate-900 text-slate-200">
-      {/* CTA Section */}
-      <div className="border-b border-slate-700 py-12 px-4">
-        <div className="container flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="text-2xl font-bold text-white">READY TO START YOUR PROJECT?</h3>
+    <footer className="bg-navy text-white">
+      <div className="border-b border-white/15">
+        <div className="container flex flex-col items-start justify-between gap-6 py-10 sm:flex-row sm:items-center">
+          <div className="max-w-xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sand">
+              Finecon Builders Limited
+            </p>
+            <h2 className="mt-3 text-2xl font-semibold text-white sm:text-3xl">
+              Discuss your next project with our team.
+            </h2>
           </div>
-          <div className="flex items-center gap-4">
-            <Link href="/contact" className="px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded transition">
-              LET'S TALK
-            </Link>
-            <a href="tel:+254731300089" className="text-lg font-semibold text-amber-400 hover:text-amber-300">
-              +254 731 300 089
-            </a>
-          </div>
+          <Link href="/contact" className="button-secondary border-white/50 text-white hover:bg-white/10">
+            Make an enquiry
+          </Link>
         </div>
       </div>
 
-      {/* Main Footer */}
-      <div className="container py-12 px-4">
-        <div className="grid md:grid-cols-3 gap-12 mb-8">
-          {/* Company Info */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-lg text-white">{company.name}</h4>
-            <p className="text-sm leading-relaxed text-slate-300">
-              Design-build contractor headquartered in Kilifi — engineered residential and commercial construction with disciplined site control.
+      <div className="container py-10 sm:py-12">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
+          <div className="max-w-sm">
+            <Link href="/" className="inline-flex flex-col leading-tight text-white no-underline">
+              <span className="text-lg font-bold tracking-[0.04em]">FINECON</span>
+              <span className="mt-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-slate-300">
+                Builders Limited
+              </span>
+            </Link>
+            <p className="mt-4 text-sm leading-7 text-slate-300">
+              Civil engineering and construction. Explore our projects, services, and company information.
             </p>
+            <div className="mt-4 space-y-2 text-sm text-slate-300">
+              <p>
+                <a href={`tel:${company.phone}`} className="underline underline-offset-4">
+                  {company.phone}
+                </a>
+              </p>
+              <p>{company.postalAddress}</p>
+            </div>
           </div>
 
-          {/* Navigate */}
-          <div className="space-y-4">
-            <h5 className="font-bold text-white text-sm tracking-widest">NAVIGATE</h5>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/" className="hover:text-amber-400 transition">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/company" className="hover:text-amber-400 transition">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="/company" className="hover:text-amber-400 transition">
-                  Team
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-amber-400 transition">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="hover:text-amber-400 transition">
-                  Insights
-                </Link>
-              </li>
+          <nav aria-label="Footer company navigation">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
+              Company
+            </h3>
+            <ul className="mt-4 space-y-3 text-sm text-slate-200">
+              <li><Link href="/company" className="hover:text-white">About Finecon</Link></li>
+              <li><Link href="/services" className="hover:text-white">Services</Link></li>
+              <li><Link href="/projects" className="hover:text-white">Projects</Link></li>
+              <li><Link href="/locations" className="hover:text-white">Locations</Link></li>
             </ul>
-          </div>
+          </nav>
 
-          {/* Contact */}
-          <div className="space-y-4">
-            <h5 className="font-bold text-white text-sm tracking-widest">CONTACT</h5>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a href="tel:+254731300089" className="hover:text-amber-400 transition">
-                  +254 731 300 089
-                </a>
-              </li>
-              <li className="text-slate-300">
-                Kilifi, Kenya
-              </li>
-              <li>
-                <a href="mailto:info@fineconebuilders.co.ke" className="hover:text-amber-400 transition">
-                  info@fineconebuilders.co.ke
-                </a>
-              </li>
-              <li className="text-slate-300">
-                Mon – Fri, 8:00 AM – 5:00 PM EAT
-              </li>
+          <nav aria-label="Footer resources navigation">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
+              Resources
+            </h3>
+            <ul className="mt-4 space-y-3 text-sm text-slate-200">
+              <li><Link href="/blog" className="hover:text-white">Insights</Link></li>
+              <li><Link href="/careers" className="hover:text-white">Careers</Link></li>
+              <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
             </ul>
-          </div>
+          </nav>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+        <div className="mt-10 border-t border-white/15 pt-6 text-xs text-slate-300">
           <p>© {currentYear} {company.name}. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="#" className="hover:text-slate-200 transition">
-              Terms
-            </Link>
-            <Link href="#" className="hover:text-slate-200 transition">
-              Privacy
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

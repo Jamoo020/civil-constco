@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   compress: true,
-  swcMinify: true,
   productionBrowserSourceMaps: false,
   poweredByHeader: false,
   generateEtags: true,
@@ -52,15 +51,6 @@ const nextConfig = {
             value: "geolocation=(), microphone=(), camera=()"
           }
         ]
-      }
-    ]
-  },
-  redirects: async () => {
-    return [
-      {
-        source: "/admin",
-        destination: "/admin",
-        permanent: false
       }
     ]
   },

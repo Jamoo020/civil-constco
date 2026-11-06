@@ -41,7 +41,7 @@ export function buildPageMeta({
             },
           ]
         : [],
-      siteName: "Finecone Builders Limited",
+      siteName: "Finecon Builders Limited",
       locale: "en_KE",
     },
     twitter: {
@@ -187,7 +187,7 @@ export function projectSchema({
     dateCompleted,
     creator: {
       "@type": "Organization",
-      name: "Finecone Builders Limited",
+      name: "Finecon Builders Limited",
     },
     client: client
       ? {

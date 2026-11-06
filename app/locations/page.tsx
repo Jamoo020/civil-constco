@@ -4,8 +4,8 @@ import { locations } from "../../src/data/content";
 import MapInteractive from "../../src/components/MapInteractive";
 
 export const metadata = {
-  title: "Locations | Finecone Builders Limited",
-  description: "Finecone Builders Limited is a coastal construction company based in Kilifi, serving the Kenyan Coast and all 47 counties with civil engineering, roadworks and coastal infrastructure.",
+  title: "Locations | Finecon Builders Limited",
+  description: "Finecon Builders Limited is a coastal construction company based in Kilifi, serving the Kenyan Coast and all 47 counties with civil engineering, roadworks and coastal infrastructure.",
   keywords: [
     "Kilifi construction company",
     "Mombasa construction contractor",
@@ -16,9 +16,9 @@ export const metadata = {
     "coastal infrastructure"
   ],
   openGraph: {
-    title: "Locations | Finecone Builders Limited",
-    description: "Finecone Builders Limited is a coastal construction company based in Kilifi, delivering civil engineering, roadworks and coastal infrastructure across Mombasa, Kilifi, Malindi, Kwale and all 47 counties.",
-    siteName: "Finecone Builders Limited",
+    title: "Locations | Finecon Builders Limited",
+    description: "Finecon Builders Limited is a coastal construction company based in Kilifi, delivering civil engineering, roadworks and coastal infrastructure across Mombasa, Kilifi, Malindi, Kwale and all 47 counties.",
+    siteName: "Finecon Builders Limited",
     type: "website"
   }
 };
@@ -29,7 +29,7 @@ export default function LocationsPage() {
     <div className="container py-12">
       <h1 className="text-4xl font-bold mb-4">Locations</h1>
       <p className="text-gray-600 mb-8">
-        Finecone Builders Limited is headquartered in Kilifi and delivers civil engineering and construction across all 47 counties in Kenya.
+        Finecon Builders Limited is headquartered in Kilifi and delivers civil engineering and construction across all 47 counties in Kenya.
       </p>
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_0.9fr] mb-10">

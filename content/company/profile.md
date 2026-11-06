@@ -1,5 +1,5 @@
 ---
-name: Finecone Builders Limited
+name: Finecon Builders Limited
 founded: 2010
 areas: Mombasa, Kilifi, Malindi, Kwale, Nationwide
 ---

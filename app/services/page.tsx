@@ -1,47 +1,78 @@
 import React from "react";
 import Link from "next/link";
-import { services } from "../../src/data/content";
-import ServiceIcon from "../../src/components/ServiceIcon";
+import type { Metadata } from "next";
+import { serviceCatalog } from "../../src/data/service-taxonomy";
 
-export const metadata = {
-  title: "Services | Finecone Builders Limited",
-  description: "Explore our civil engineering and road construction services, delivered with coastal resilience and national capacity.",
+const description =
+  "Explore Finecon Builders Limited's six building services, from architectural and structural design to construction, interior design and site supervision.";
+
+export const metadata: Metadata = {
+  title: "Services",
+  description,
+  alternates: {
+    canonical: "https://civil-constco.vercel.app/services",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://civil-constco.vercel.app/services",
+    title: "Services | Finecon Builders Limited",
+    description,
+  },
 };
 
 export const dynamic = "force-static";
 
 export default function ServicesPage() {
   return (
-    <div className="container py-12">
-      <h1 className="text-4xl font-bold mb-4">Services</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {services.map((s) => (
-          <article key={s.slug} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg flex gap-4 items-start">
-            <div className="flex-shrink-0 rounded-3xl bg-slate-100 p-4 text-steel">
-              <ServiceIcon slug={s.slug} className="h-12 w-12" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-2xl font-semibold">{s.title}</h3>
-              <p className="mt-3 text-gray-700 leading-relaxed">{s.excerpt}</p>
+    <>
+      <header className="bg-brand-navy py-16 text-white md:py-24">
+        <div className="container">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">
+            Building services
+          </p>
+          <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight text-white md:text-6xl">
+            Building design and construction
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-200">
+            Explore six building-focused services, from planning and design
+            through construction, renovation and site supervision.
+          </p>
+        </div>
+      </header>
 
-              {s.benefits?.length ? (
-                <div className="mt-4 space-y-2 text-sm text-gray-600">
-                  {s.benefits.slice(0, 3).map((benefit) => (
-                    <div key={benefit} className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-steel" />
-                      <span>{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-
-              <Link href={`/services/${s.slug}`} className="mt-6 inline-flex items-center text-steel font-semibold hover:underline">
-                Read service details
-              </Link>
-            </div>
-          </article>
-        ))}
+      <div className="container py-16 md:py-24">
+        <ul className="grid gap-x-12 gap-y-10 md:grid-cols-2 lg:gap-x-16 lg:gap-y-14">
+          {serviceCatalog.map((service) => (
+            <li key={service.slug} className="border-t border-brand-line pt-5">
+              <h2 className="text-2xl font-semibold md:text-3xl">
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="text-brand-navy underline-offset-4 hover:text-steel hover:underline"
+                >
+                  {service.title}
+                </Link>
+              </h2>
+              <p className="mt-3 max-w-prose leading-relaxed text-brand-muted">
+                {service.excerpt}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
-    </div>
+
+      <section className="bg-white py-12 md:py-16">
+        <div className="container flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-2xl font-semibold">Have an enquiry?</h2>
+            <p className="mt-2 text-brand-muted">
+              Contact Finecon Builders Limited.
+            </p>
+          </div>
+          <Link href="/contact" className="button-primary w-fit">
+            Contact us
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }

@@ -5,8 +5,19 @@ import { useState } from "react";
 export default function ProjectGallery({ images }: { images: string[] }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
+  const [failedImages, setFailedImages] = useState<Set<number>>(() => new Set());
   const galleryImages = images.slice(0, 8);
   const mainImage = galleryImages[selectedIndex] ?? galleryImages[0] ?? images[0];
+
+  function markImageFailed(index: number) {
+    setFailedImages((current) => new Set(current).add(index));
+    if (index === selectedIndex) {
+      const nextAvailable = galleryImages.findIndex(
+        (_, candidate) => candidate !== index && !failedImages.has(candidate)
+      );
+      if (nextAvailable >= 0) setSelectedIndex(nextAvailable);
+    }
+  }
 
   return (
     <section className="space-y-6">
@@ -21,43 +32,60 @@ export default function ProjectGallery({ images }: { images: string[] }) {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[1.6fr_0.9fr]">
-        <button
-          type="button"
-          onClick={() => setModalOpen(true)}
-          className="relative h-96 overflow-hidden rounded-[2rem] bg-slate-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-steel/50"
-        >
-          <Image
-            src={mainImage}
-            alt={`Project image ${selectedIndex + 1}`}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
-          />
-        </button>
+        {failedImages.has(selectedIndex) ? (
+          <div className="flex h-96 items-center justify-center rounded-[2rem] bg-slate-100 px-6 text-center text-sm text-gray-600">
+            Project image unavailable.
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setModalOpen(true)}
+            className="relative h-96 overflow-hidden rounded-[2rem] bg-slate-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-steel/50"
+          >
+            <Image
+              src={mainImage}
+              alt={`Project image ${selectedIndex + 1}`}
+              unoptimized
+              onError={() => markImageFailed(selectedIndex)}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </button>
+        )}
 
         <div className="grid gap-4">
           {galleryImages.map((image, index) => (
             <button
-              key={image}
+              key={`${image}-${index}`}
               type="button"
               onClick={() => setSelectedIndex(index)}
+              aria-label={`Show project image ${index + 1}`}
               className={`relative h-28 w-full overflow-hidden rounded-3xl border transition focus:outline-none focus:ring-2 focus:ring-steel/50 ${
                 index === selectedIndex ? "border-steel shadow-lg" : "border-transparent"
               }`}
             >
-              <Image
-                src={image}
-                alt={`Thumbnail ${index + 1}`}
-                fill
-                sizes="(max-width: 768px) 25vw, 10vw"
-                className="object-cover"
-              />
+              {failedImages.has(index) ? (
+                <span className="flex h-full items-center justify-center bg-slate-100 px-2 text-xs text-gray-600">
+                  Unavailable
+                </span>
+              ) : (
+                <Image
+                  src={image}
+                  alt={`Thumbnail ${index + 1}`}
+                  unoptimized
+                  onError={() => markImageFailed(index)}
+                  fill
+                  sizes="(max-width: 768px) 25vw, 10vw"
+                  className="object-cover"
+                />
+              )}
             </button>
           ))}
         </div>
       </div>
 
-      {modalOpen ? (
+      {modalOpen && !failedImages.has(selectedIndex) ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={() => setModalOpen(false)}>
           <div className="relative max-h-full w-full max-w-6xl overflow-hidden rounded-[2rem] bg-slate-900 shadow-2xl" onClick={(event) => event.stopPropagation()}>
             <button
@@ -72,6 +100,8 @@ export default function ProjectGallery({ images }: { images: string[] }) {
               <Image
                 src={mainImage}
                 alt={`Enlarged project image ${selectedIndex + 1}`}
+                unoptimized
+                onError={() => markImageFailed(selectedIndex)}
                 fill
                 sizes="100vw"
                 className="object-contain bg-slate-900"

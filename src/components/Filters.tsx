@@ -3,8 +3,11 @@ import React, { useMemo, useState } from "react";
 import { Project } from "../data/projects";
 import ProjectCard from "./ProjectCard";
 import { locations } from "../data/content";
-
-const projectTypes = ["All types", "Roads", "Construction", "Buildings", "Industrial", "Urban Infrastructure"];
+import {
+  filterProjects,
+  getProjectTypeOptions,
+  sortFeaturedProjects,
+} from "../lib/project-presentation";
 
 function titleFromSlug(slug: string) {
   return slug
@@ -18,21 +21,17 @@ export default function Filters({ projects }: { projects: Project[] }) {
     const names = locations.map((l) => titleFromSlug(l.slug));
     return ["All regions", ...Array.from(new Set(names))];
   }, []);
+  const projectTypes = useMemo(() => getProjectTypeOptions(projects), [projects]);
   const [search, setSearch] = useState("");
   const [region, setRegion] = useState(regions[0]);
-  const [type, setType] = useState(projectTypes[0]);
+  const [type, setType] = useState("");
 
   const filteredProjects = useMemo(
-    () =>
-      projects.filter((project) => {
-        const matchesSearch = [project.title, project.location, project.type, project.client]
-          .join(" ")
-          .toLowerCase()
-          .includes(search.toLowerCase());
-        const matchesRegion = region === "All regions" || project.location.toLowerCase().includes(region.toLowerCase());
-        const matchesType = type === "All types" || project.type.toLowerCase() === type.toLowerCase();
-        return matchesSearch && matchesRegion && matchesType;
-      }),
+    () => sortFeaturedProjects(filterProjects(projects, {
+      search,
+      region: region === "All regions" ? "" : region,
+      type,
+    })),
     [projects, search, region, type]
   );
 
@@ -75,9 +74,10 @@ export default function Filters({ projects }: { projects: Project[] }) {
               onChange={(event) => setType(event.target.value)}
               className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 shadow-sm focus:border-steel focus:outline-none focus:ring-2 focus:ring-steel/20"
             >
+              <option value="">All types</option>
               {projectTypes.map((typeOption) => (
-                <option key={typeOption} value={typeOption}>
-                  {typeOption}
+                <option key={typeOption.value} value={typeOption.value}>
+                  {typeOption.label}
                 </option>
               ))}
             </select>

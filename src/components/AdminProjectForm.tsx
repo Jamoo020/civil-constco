@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import { PROJECT_FIELD_LIMITS } from "../lib/project-validation";
 
 type AdminProjectData = {
   title: string;
@@ -20,11 +21,13 @@ type AdminProjectData = {
 type Props = {
   project: AdminProjectData;
   loading: boolean;
+  csrfToken: string;
+  onUnauthorized: () => void;
   onSave: (project: AdminProjectData) => Promise<void>;
   onCancel: () => void;
 };
 
-export default function AdminProjectForm({ project, loading, onSave, onCancel }: Props) {
+export default function AdminProjectForm({ project, loading, csrfToken, onUnauthorized, onSave, onCancel }: Props) {
   const [formState, setFormState] = useState(project);
   const [validationError, setValidationError] = useState("");
   const [files, setFiles] = useState<FileList | null>(null);
@@ -39,11 +42,43 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
   }
 
   function validate() {
-    if (!formState.title.trim()) return "A project title is required.";
-    if (!formState.location.trim()) return "A location is required.";
-    if (!formState.year.trim() || Number.isNaN(Number(formState.year))) return "A valid year is required.";
-    if (!formState.overview.trim()) return "An overview is required.";
-    if (!formState.scope.trim()) return "At least one scope item is required.";
+    const title = formState.title.trim();
+    const location = formState.location.trim();
+    const overview = formState.overview.trim();
+    const projectType = formState.type.trim();
+    const year = Number(formState.year);
+    const scope = formState.scope.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
+    const images = formState.images.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
+
+    if (!title) return "Project title is required.";
+    if (title.length > PROJECT_FIELD_LIMITS.title) return `Project title must be ${PROJECT_FIELD_LIMITS.title} characters or fewer.`;
+    if (!location) return "Location is required.";
+    if (location.length > PROJECT_FIELD_LIMITS.location) return `Location must be ${PROJECT_FIELD_LIMITS.location} characters or fewer.`;
+    if (!overview) return "Overview is required.";
+    if (overview.length > PROJECT_FIELD_LIMITS.overview) return `Overview must be ${PROJECT_FIELD_LIMITS.overview} characters or fewer.`;
+    if (!projectType) return "Project type is required.";
+    if (projectType.length > PROJECT_FIELD_LIMITS.type) return `Project type must be ${PROJECT_FIELD_LIMITS.type} characters or fewer.`;
+    if (!Number.isInteger(year) || year < 1800 || year > 2100) return "Year must be an integer between 1800 and 2100.";
+    if (!scope.length) return "At least one scope item is required.";
+    if (scope.length > PROJECT_FIELD_LIMITS.scopeItems) return `Scope may contain at most ${PROJECT_FIELD_LIMITS.scopeItems} items.`;
+    if (scope.some((item) => item.length > PROJECT_FIELD_LIMITS.scopeItem)) return `Scope items must be ${PROJECT_FIELD_LIMITS.scopeItem} characters or fewer.`;
+    if (images.length > PROJECT_FIELD_LIMITS.galleryImages) return `Gallery images may contain at most ${PROJECT_FIELD_LIMITS.galleryImages} items.`;
+    if (images.some((item) => item.length > PROJECT_FIELD_LIMITS.imageUrl)) return `Gallery image URLs must be ${PROJECT_FIELD_LIMITS.imageUrl} characters or fewer.`;
+    if (formState.client.trim().length > PROJECT_FIELD_LIMITS.client) return `Client must be ${PROJECT_FIELD_LIMITS.client} characters or fewer.`;
+    if (formState.impact.trim().length > PROJECT_FIELD_LIMITS.impact) return `Impact must be ${PROJECT_FIELD_LIMITS.impact} characters or fewer.`;
+
+    const isValidImageUrl = (value: string) => {
+      if (!value) return true;
+      if (/^\/uploads\/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\.webp$/.test(value)) return true;
+      try {
+        const url = new URL(value);
+        return (url.protocol === "http:" || url.protocol === "https:") && Boolean(url.hostname) && !url.username && !url.password;
+      } catch {
+        return false;
+      }
+    };
+    if (!isValidImageUrl(formState.image.trim())) return "Primary image must be an HTTP, HTTPS, or stored upload URL.";
+    if (images.some((image) => !isValidImageUrl(image))) return "Gallery image URLs must be HTTP, HTTPS, or stored upload URLs.";
     return "";
   }
 
@@ -66,9 +101,14 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
       const form = new FormData();
       for (let i = 0; i < files.length; i++) form.append("file", files[i]);
 
-      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: { "X-CSRF-Token": csrfToken },
+        body: form,
+      });
       const data = await res.json();
       if (!res.ok) {
+        if (res.status === 401) onUnauthorized();
         setUploadError(data.error || "Upload failed.");
         return;
       }
@@ -94,7 +134,7 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
           <h2 className="text-2xl font-semibold">{formState.slug ? "Edit project" : "Add project"}</h2>
-          <p className="mt-2 text-gray-600">Fill in project details and save. Image and scope are optional but recommended.</p>
+          <p className="mt-2 text-gray-600">Fill in project details and save. Add at least one scope item; images are optional.</p>
         </div>
         <div className="flex gap-3">
           <button
@@ -120,6 +160,8 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
           <input
             type="text"
             value={formState.title}
+            maxLength={PROJECT_FIELD_LIMITS.title}
+            required
             onChange={(event) => handleChange("title", event.target.value)}
             className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
           />
@@ -129,6 +171,8 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
           <input
             type="text"
             value={formState.location}
+            maxLength={PROJECT_FIELD_LIMITS.location}
+            required
             onChange={(event) => handleChange("location", event.target.value)}
             className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
           />
@@ -138,6 +182,10 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
           <input
             type="number"
             value={formState.year}
+            min={1800}
+            max={2100}
+            step={1}
+            required
             onChange={(event) => handleChange("year", event.target.value)}
             className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
           />
@@ -147,6 +195,8 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
           <input
             type="text"
             value={formState.type}
+            maxLength={PROJECT_FIELD_LIMITS.type}
+            required
             onChange={(event) => handleChange("type", event.target.value)}
             className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
           />
@@ -156,6 +206,7 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
           <input
             type="text"
             value={formState.client}
+            maxLength={PROJECT_FIELD_LIMITS.client}
             onChange={(event) => handleChange("client", event.target.value)}
             className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
           />
@@ -163,8 +214,10 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
         <label className="block">
           <span className="text-sm font-medium text-gray-700">Primary image URL</span>
           <input
-            type="url"
+            type="text"
+            inputMode="url"
             value={formState.image}
+            maxLength={PROJECT_FIELD_LIMITS.imageUrl}
             onChange={(event) => handleChange("image", event.target.value)}
             className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
           />
@@ -175,6 +228,8 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
         <span className="text-sm font-medium text-gray-700">Overview</span>
         <textarea
           value={formState.overview}
+          maxLength={PROJECT_FIELD_LIMITS.overview}
+          required
           onChange={(event) => handleChange("overview", event.target.value)}
           rows={5}
           className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
@@ -186,6 +241,8 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
         <span className="block text-xs text-gray-500 mb-2">One item per line</span>
         <textarea
           value={formState.scope}
+          maxLength={PROJECT_FIELD_LIMITS.scopeItems * (PROJECT_FIELD_LIMITS.scopeItem + 1)}
+          required
           onChange={(event) => handleChange("scope", event.target.value)}
           rows={4}
           className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
@@ -198,6 +255,7 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
         <span className="block text-xs text-gray-500 mb-2">One URL per line; included in the project gallery.</span>
         <textarea
           value={formState.images}
+          maxLength={PROJECT_FIELD_LIMITS.galleryImages * (PROJECT_FIELD_LIMITS.imageUrl + 1)}
           onChange={(event) => handleChange("images", event.target.value)}
           rows={4}
           className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
@@ -210,7 +268,7 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
         <span className="block text-xs text-gray-500 mb-2">Select one or more image files and upload them. Uploaded files will be saved to /uploads.</span>
         <input
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp"
           multiple
           onChange={(e) => setFiles(e.target.files)}
           className="mt-2"
@@ -232,6 +290,7 @@ export default function AdminProjectForm({ project, loading, onSave, onCancel }:
         <span className="text-sm font-medium text-gray-700">Impact summary</span>
         <textarea
           value={formState.impact}
+          maxLength={PROJECT_FIELD_LIMITS.impact}
           onChange={(event) => handleChange("impact", event.target.value)}
           rows={3}
           className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"

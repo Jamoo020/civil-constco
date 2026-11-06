@@ -1,169 +1,90 @@
 export const services = [
   {
-    slug: "civil-engineering",
-    title: "Civil Engineering",
+    slug: "architectural-design",
+    title: "Architectural Design",
     excerpt:
-      "Feasibility-to-handover civil engineering services — roads, drainage, earthworks and structural works.",
+      "Plan a building's layout, spaces and appearance through concepts, floor plans, elevations and drawings.",
     content:
-      "Full-scope civil engineering from feasibility studies and detailed design through to construction supervision and handover. We specialise in resilient solutions for coastal and inland environments, combining geotechnical input, materials testing, environmental safeguards and constructability-focused designs to minimise lifecycle costs.",
+      "Architectural design translates a client's requirements and site information into a considered building layout. Planning can address how rooms and other spaces are allocated, how people move through the building, and how the building is arranged across its floors. Floor plans, elevations and other architectural drawings can communicate the proposed layout and appearance. The drawing scope and required professional review depend on the project; drawings for statutory submission must be prepared or reviewed through appropriately qualified professionals and the relevant approval process.",
     benefits: [
-      "Feasibility studies, concept and detailed design",
-      "Site investigation and geotechnical assessment",
-      "Construction supervision, QC and handover documentation"
+      "Building concepts and space allocation",
+      "Floor plans, elevations and building layouts",
+      "Architectural drawings coordinated with the agreed project requirements"
     ]
   },
   {
-    slug: "road-construction",
-    title: "Road Construction",
-    excerpt: "Design-build and rehabilitation of arterial and rural roads with lifecycle focus.",
+    slug: "building-construction",
+    title: "Building Construction",
+    excerpt:
+      "Construct new residential or commercial buildings through coordinated site and building works.",
     content:
-      "We deliver new pavements, rehabilitation and upgrade contracts including pavement design, subgrade stabilisation, drainage, signage and traffic-management planning. Our approach prioritises durable materials, corrosion and erosion resistance for coastal corridors, and low-maintenance detailing for remote rural roads.",
+      "Building construction covers the physical work involved in putting up a new building. For residential and commercial projects, the agreed scope may progress from site preparation and foundations through structural work, masonry and roofing to other specified building work. Construction sequencing and coordination depend on the drawings, specifications, contract and site conditions. Design, specialist work and statutory approvals require the appropriate professional appointments and authority processes.",
     benefits: [
-      "New road construction and rehabilitation",
-      "Pavement design and stabilisation",
-      "Traffic safety works and asset handover"
+      "Site preparation and foundation work within the agreed scope",
+      "Structural, masonry and roofing work",
+      "Coordination of construction activities against project information"
     ]
   },
   {
-    slug: "bridge-and-structural-works",
-    title: "Bridge & Structural Works",
-    excerpt: "Design and construction of small to medium-span bridges, culverts and reinforced structures.",
+    slug: "general-construction",
+    title: "General Construction",
+    excerpt:
+      "Renew or adapt existing buildings through renovation, extension, repair and refurbishment work.",
     content:
-      "Delivery of reinforced concrete and steel bridgeworks, culverts, retaining walls and other structural elements. Services cover structural design, temporary works, piling and foundation systems, corrosion protection and load-rating assessments to ensure safe long-term performance.",
+      "General construction focuses on changing, repairing or renewing an existing building rather than constructing a new building. Depending on the brief, work may include renovations, extensions, alterations, repairs or refurbishment. The work is planned around the building's existing condition, the intended changes and any drawings or specifications agreed for the project. Structural changes and regulated work require appropriate professional review and approvals where applicable.",
     benefits: [
-      "Bridge design and construction",
-      "Foundation and piling works",
-      "Structural inspections and maintenance planning"
+      "Renovations and refurbishment",
+      "Extensions and building alterations",
+      "Repairs and other agreed general building work"
     ]
   },
   {
-    slug: "coastal-and-marine-works",
-    title: "Coastal & Marine Works",
-    excerpt: "Seawalls, revetments, jetties and port-support civil works designed for resilience.",
+    slug: "interior-design",
+    title: "Interior Design",
+    excerpt:
+      "Plan functional interior spaces, room layouts, finishes, fittings and material selections.",
     content:
-      "Specialist coastal engineering services including shoreline stabilisation, seawalls, revetments, groynes and small-port infrastructure. We apply wave and scour assessment, material selection for saline environments, and environmentally sensitive construction methods.",
+      "Interior design considers how rooms and internal areas will be arranged and used. Planning may address room layouts, circulation, flooring, wall treatments, ceilings, fittings and material selection in relation to the building and the client's requirements. The extent of design information and any associated installation work depend on the agreed project scope.",
     benefits: [
-      "Shoreline protection and erosion control",
-      "Port access and small harbour works",
-      "Scour protection and sediment management"
+      "Interior space planning and room layouts",
+      "Finishes for floors, walls and ceilings",
+      "Fittings and material selections suited to the agreed brief"
     ]
   },
   {
-    slug: "drainage-and-flood-management",
-    title: "Drainage & Flood Management",
-    excerpt: "Urban and rural drainage design, culvert works and flood mitigation measures.",
+    slug: "site-supervision",
+    title: "Site Supervision",
+    excerpt:
+      "Monitor construction progress, workmanship and site coordination against agreed project information.",
     content:
-      "Design and implementation of surface and subsurface drainage systems, culverts, retention basins and sustainable urban drainage (SUDS). Our work reduces flood risk, improves road resilience and integrates with landscape and environmental requirements.",
+      "Site supervision involves observing and coordinating construction activity within an agreed scope. This may include monitoring progress, workmanship, material use and dimensions against the current drawings and project specifications, and coordinating the sequence of site activities. Construction issues can be identified and raised for review by the responsible project parties. The supervisor's authority, reporting duties and inspection scope should be defined for each project; supervision does not replace statutory inspections or specialist professional approvals.",
     benefits: [
-      "Hydraulic modelling and culvert design",
-      "Channel stabilisation and retention systems",
-      "Urban SUDS and landscape-integrated drainage"
+      "Progress monitoring against the agreed programme and scope",
+      "Observation of workmanship, materials and dimensions against project information",
+      "Coordination of site activities and escalation of identified issues"
     ]
   },
   {
-    slug: "earthworks-and-site-preparation",
-    title: "Earthworks & Site Preparation",
-    excerpt: "Bulk earthworks, cut-and-fill, site clearing and compaction for site readiness.",
+    slug: "structural-design",
+    title: "Structural Design",
+    excerpt:
+      "Plan building foundations and structural elements such as columns, beams and slabs.",
     content:
-      "Comprehensive earthworks and site preparation services including striping, mass excavation, embankment construction, compaction testing, and temporary works. We provide cost-optimised sequencing to minimise haulage and environmental disturbance on site.",
+      "Structural design considers how a building's foundations and load-bearing elements work together to support the building and transfer loads to the ground. Depending on the project, this may include foundations, columns, beams, slabs and other structural components, with calculations and drawings used to communicate the design. Structural calculations and drawings for construction or statutory review must be prepared or checked by appropriately qualified professionals; the required appointments and approvals depend on the project.",
     benefits: [
-      "Bulk excavation and embankment construction",
-      "Compaction testing and materials management",
-      "Temporary works and erosion control"
-    ]
-  },
-  {
-    slug: "utilities-water-and-sewer",
-    title: "Utilities, Water & Sewer",
-    excerpt: "Water supply, sewer networks, pumping stations and utilities coordination.",
-    content:
-      "Delivery of buried utilities, potable water mains, gravity and pressure sewer systems, pump stations and water retention works. We coordinate with service providers to minimise disruption and ensure safe, durable utility installations.",
-    benefits: [
-      "Potable water and sewer network construction",
-      "Pump station and ancillary works",
-      "Utilities coordination and reinstatement"
-    ]
-  },
-  {
-    slug: "geotechnical-and-foundations",
-    title: "Geotechnical & Foundations",
-    excerpt: "Ground investigation, foundation design and slope stability solutions.",
-    content:
-      "Site investigation, laboratory testing and geotechnical design to inform safe foundation systems, retaining structures and slope stabilisation. We provide piling, ground improvement and engineered retaining solutions for challenging soils.",
-    benefits: [
-      "Site investigation and lab testing",
-      "Piling and ground improvement",
-      "Slope stabilisation and retaining design"
-    ]
-  },
-  {
-    slug: "environmental-and-social-management",
-    title: "Environmental & Social Management",
-    excerpt: "ESIA support, environmental safeguards and community liaison.",
-    content:
-      "Environmental and social impact assessment (ESIA) support, mitigation planning, sediment and erosion control, and local stakeholder engagement. We integrate environmental safeguards into construction programmes to meet compliance and sustainability goals.",
-    benefits: [
-      "ESIA and mitigation planning",
-      "Erosion and sediment control",
-      "Community engagement and grievance handling"
-    ]
-  },
-  {
-    slug: "survey-and-design-services",
-    title: "Survey & Design Services",
-    excerpt: "Topographic and engineering surveys, CAD/BIM design and quantity take-offs.",
-    content:
-      "Accurate topographic and boundary surveys, setting out, CAD and BIM design deliverables, and construction-ready drawings with quantity take-offs to support bids and site works.",
-    benefits: [
-      "Topographic and setting-out surveys",
-      "CAD/BIM drawings and shop detailing",
-      "Quantity take-offs and constructability reviews"
-    ]
-  },
-  {
-    slug: "contract-management-and-ppc",
-    title: "Contract Management & Project Controls",
-    excerpt: "Project management, procurement, scheduling and cost control.",
-    content:
-      "Full project and contract management including procurement, construction scheduling, cost control, risk registers and quality assurance. We provide monthly reporting and handover documentation to meet client governance requirements.",
-    benefits: [
-      "Project and contract administration",
-      "Cost control and CPM scheduling",
-      "HSE and quality management systems"
-    ]
-  },
-  {
-    slug: "asphalt-and-paving",
-    title: "Asphalt & Paving",
-    excerpt: "Hot-mix asphalt, paving and surfacing works for roads and hardstandings.",
-    content:
-      "Supply and place asphalt pavements and other surfacing systems including compaction, temperature control and joint detailing. Works include kerbing, paving blocks and specialized surfacing for ports and industrial yards.",
-    benefits: [
-      "Hot-mix asphalt supply and lay",
-      "Kerbing and pedestrian paving",
-      "Specialist industrial surfacing"
-    ]
-  },
-  {
-    slug: "maintenance-and-asset-management",
-    title: "Maintenance & Asset Management",
-    excerpt: "Planned maintenance, inspection and lifecycle extension for civil assets.",
-    content:
-      "Routine and planned maintenance services for roads, bridges and drainage assets, including condition surveys, preventative repairs and lifecycle-cost optimisation to extend asset life and reduce whole-life costs.",
-    benefits: [
-      "Condition surveys and inspections",
-      "Preventative maintenance programmes",
-      "Asset handover and lifecycle planning"
+      "Structural planning for foundations, columns, beams and slabs",
+      "Consideration of how structural elements support and transfer building loads",
+      "Structural calculations and drawings through appropriately qualified professionals where required"
     ]
   }
-];
+] as const;
 
 export const locations = [
   {
     slug: "mombasa",
     title: "Civil engineering and construction services for Mombasa",
-    description: "Finecone Builders Limited delivers coastal roadworks, port infrastructure and resilient civil engineering services across Mombasa.",
-    content: "Finecone Builders Limited serves Mombasa with port-support civil works, coastal protection, commercial development infrastructure and road upgrades for the busiest urban corridor on the Kenyan Coast.",
+    description: "Finecon Builders Limited delivers coastal roadworks, port infrastructure and resilient civil engineering services across Mombasa.",
+    content: "Finecon Builders Limited serves Mombasa with port-support civil works, coastal protection, commercial development infrastructure and road upgrades for the busiest urban corridor on the Kenyan Coast.",
     focus: ["Coastal roads and port access upgrades", "Seawall and shoreline protection", "Commercial and public works construction"]
   },
   {
@@ -495,7 +416,9 @@ export const posts = [
 ];
 
 export const company = {
-  name: "Finecone Builders Limited",
+  name: "Finecon Builders Limited",
+  phone: "0724147639",
+  postalAddress: "P.O. Box 1616-80108",
   founded: 2010,
   areas: ["Mombasa", "Kilifi", "Malindi", "Kwale", "Nationwide"],
   vision: "To be the leading civil engineering partner in East Africa, delivering resilient, sustainable and safe projects from our Coast headquarters to nationwide clients.",
@@ -536,31 +459,31 @@ export const processSteps = [
 
 export const testimonials = [
   {
-    quote: "A major coastal protection project required innovative design and flawless execution. Finecone Builders Limited coordinated every detail—from material testing to environmental safeguards—and delivered on time with exceptional quality.",
+    quote: "A major coastal protection project required innovative design and flawless execution. Finecon Builders Limited coordinated every detail—from material testing to environmental safeguards—and delivered on time with exceptional quality.",
     author: "Port Authority Director",
     location: "Mombasa",
     verified: true
   },
   {
-    quote: "We've worked with Finecone Builders Limited on multiple county projects. Their discipline in scheduling, cost transparency, and on-site supervision consistently exceeds expectations. Even when site conditions change, they maintain clarity and quality.",
+    quote: "We've worked with Finecon Builders Limited on multiple county projects. Their discipline in scheduling, cost transparency, and on-site supervision consistently exceeds expectations. Even when site conditions change, they maintain clarity and quality.",
     author: "County Development Manager",
     location: "Coastal Region",
     verified: true
   },
   {
-    quote: "From tender to handover, Finecone Builders Limited managed a complex drainage network across three zones. Their technical input solved design challenges, and their team kept the project moving through every weather season.",
+    quote: "From tender to handover, Finecon Builders Limited managed a complex drainage network across three zones. Their technical input solved design challenges, and their team kept the project moving through every weather season.",
     author: "Water Utilities Client",
     location: "Nationwide",
     verified: true
   },
   {
-    quote: "Working with Finecone Builders Limited as a subcontractor has been seamless. Their documentation is clear, scope definitions are precise, and communication is always professional. Payment processes are timely and reliable.",
+    quote: "Working with Finecon Builders Limited as a subcontractor has been seamless. Their documentation is clear, scope definitions are precise, and communication is always professional. Payment processes are timely and reliable.",
     author: "Contractor Partner",
     location: "Kenya",
     verified: true
   },
   {
-    quote: "Finecone Builders Limited rebuilt our district's access roads with remarkable resilience. Their teams understood local conditions, coordinated community needs, and delivered infrastructure that strengthens connectivity across our region.",
+    quote: "Finecon Builders Limited rebuilt our district's access roads with remarkable resilience. Their teams understood local conditions, coordinated community needs, and delivered infrastructure that strengthens connectivity across our region.",
     author: "District Administrator",
     location: "Inland Kenya",
     verified: true

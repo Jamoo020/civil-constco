@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: { slug: string } | 
     return { title: "Location not found" };
   }
   return {
-    title: `${location.title} | Locations | Finecone Builders Limited`,
+    title: `${location.title} | Locations | Finecon Builders Limited`,
     description: location.description,
   };
 }

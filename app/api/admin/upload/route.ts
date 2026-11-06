@@ -1,128 +1,235 @@
-import fs from "fs/promises";
-import path from "path";
+import { randomUUID } from "crypto";
 import sharp from "sharp";
 import { NextRequest, NextResponse } from "next/server";
+import {
+  authorizeAdminRequest,
+  consumeRateLimit,
+} from "../../../../src/lib/admin-security";
+import {
+  saveProcessedImage,
+  UploadStorageConfigurationError,
+} from "../../../../src/lib/upload-storage";
 
-function getExtensionForFormat(format: string | undefined) {
-  switch (format) {
-    case "png":
-      return ".png";
-    case "webp":
-      return ".webp";
-    case "avif":
-      return ".avif";
-    default:
-      return ".jpg";
+export const runtime = "nodejs";
+
+const MAX_FILES = 5;
+const MAX_FILE_BYTES = 10 * 1024 * 1024;
+const MAX_TOTAL_BYTES = 40 * 1024 * 1024;
+const MAX_INPUT_PIXELS = 40_000_000;
+const ALLOWED_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+
+type NormalizedImage = {
+  buffer: Buffer;
+};
+
+async function normalizeImage(file: File): Promise<NormalizedImage> {
+  if (!ALLOWED_MIME_TYPES.has(file.type) || file.size > MAX_FILE_BYTES) {
+    throw new Error("Unsupported or oversized image.");
   }
-}
 
-async function compressImageBuffer(buffer: Buffer) {
-  const image = sharp(buffer).rotate();
+  const input = Buffer.from(await file.arrayBuffer());
+  const image = sharp(input, {
+    failOn: "error",
+    limitInputPixels: MAX_INPUT_PIXELS,
+    animated: false,
+  });
   const metadata = await image.metadata();
-  const outputFormat = metadata.format === "png" || metadata.format === "webp" || metadata.format === "avif" ? metadata.format : "jpeg";
+  const expectedFormat = {
+    "image/jpeg": "jpeg",
+    "image/png": "png",
+    "image/webp": "webp",
+  }[file.type];
 
-  const resized = image.resize({ width: 1600, withoutEnlargement: true });
-
-  switch (outputFormat) {
-    case "png":
-      return resized.png({ compressionLevel: 9, quality: 80 }).toBuffer();
-    case "webp":
-      return resized.webp({ quality: 80 }).toBuffer();
-    case "avif":
-      return resized.avif({ quality: 70 }).toBuffer();
-    default:
-      return resized.jpeg({ quality: 80, mozjpeg: true }).toBuffer();
+  if (
+    !metadata.width ||
+    !metadata.height ||
+    metadata.width * metadata.height > MAX_INPUT_PIXELS ||
+    metadata.format !== expectedFormat ||
+    (metadata.pages || 1) > 1
+  ) {
+    throw new Error("Unsupported image content.");
   }
+
+  const buffer = await image
+    .rotate()
+    .resize({
+      width: 2000,
+      height: 2000,
+      fit: "inside",
+      withoutEnlargement: true,
+    })
+    .webp({ quality: 82 })
+    .toBuffer();
+
+  return { buffer };
 }
 
-async function uploadToFilesystem(files: any[]) {
-  const uploadsDir = path.join(process.cwd(), "public", "uploads");
-  await fs.mkdir(uploadsDir, { recursive: true });
+async function uploadToFilesystem(images: NormalizedImage[]) {
   const urls: string[] = [];
-
-  for (const f of files) {
-    // @ts-ignore
-    const name = f.name || `upload-${Date.now()}`;
-    // @ts-ignore
-    const arrayBuffer = await f.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const compressed = await compressImageBuffer(buffer);
-
-    const parsed = path.parse(name);
-    const safeBase = parsed.name.replace(/[^a-z0-9_-]/gi, "-").toLowerCase();
-    const extension = getExtensionForFormat((await sharp(compressed).metadata()).format);
-    const safeName = `${Date.now()}-${safeBase}${extension}`;
-    const filePath = path.join(uploadsDir, safeName);
-
-    await fs.writeFile(filePath, compressed);
-    urls.push(`/uploads/${safeName}`);
+  for (const image of images) {
+    const storedImage = await saveProcessedImage(image.buffer);
+    urls.push(storedImage.url);
   }
-
   return urls;
 }
 
-async function uploadToCloudinary(files: any[]) {
+async function uploadToCloudinary(images: NormalizedImage[]) {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-  const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET; // unsigned preset
-  if (!cloudName || !uploadPreset) throw new Error("Cloudinary not configured");
-
-  const urls: string[] = [];
-
-  for (const f of files) {
-    // @ts-ignore
-    const name = f.name || `upload-${Date.now()}`;
-    // @ts-ignore
-    const arrayBuffer = await f.arrayBuffer();
-    const blob = new Blob([arrayBuffer]);
-    const form = new FormData();
-    form.append("file", blob, name);
-    form.append("upload_preset", uploadPreset);
-    form.append("quality", "auto");
-    form.append("fetch_format", "auto");
-    form.append("transformation", JSON.stringify([{ quality: "auto", fetch_format: "auto", width: 1600, crop: "limit" }]));
-
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-      method: "POST",
-      body: form,
-    });
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`Cloudinary upload failed: ${text}`);
-    }
-    const data = await res.json();
-    urls.push(data.secure_url || data.url);
+  const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
+  if (!cloudName || !uploadPreset) {
+    throw new Error("Cloudinary is not configured.");
   }
 
+  const urls: string[] = [];
+  for (const image of images) {
+    const form = new FormData();
+    const imageBytes = Uint8Array.from(image.buffer);
+    form.append(
+      "file",
+      new Blob([imageBytes], { type: "image/webp" }),
+      `${randomUUID()}.webp`
+    );
+    form.append("upload_preset", uploadPreset);
+
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+      {
+        method: "POST",
+        body: form,
+        signal: AbortSignal.timeout(20_000),
+      }
+    );
+    if (!response.ok) {
+      console.error(`Cloudinary upload failed with status ${response.status}.`);
+      throw new Error("Image storage failed.");
+    }
+
+    const result = (await response.json()) as { secure_url?: unknown };
+    if (
+      typeof result.secure_url !== "string" ||
+      new URL(result.secure_url).protocol !== "https:"
+    ) {
+      throw new Error("Image storage returned an invalid URL.");
+    }
+    urls.push(result.secure_url);
+  }
   return urls;
 }
 
 export async function POST(request: NextRequest) {
+  const authorization = authorizeAdminRequest(request, true);
+  if ("response" in authorization) return authorization.response;
+
+  const contentType = request.headers.get("content-type") || "";
+  if (!contentType.toLowerCase().startsWith("multipart/form-data;")) {
+    return NextResponse.json(
+      { error: "Unsupported request format." },
+      { status: 415 }
+    );
+  }
+
+  const contentLengthHeader = request.headers.get("content-length");
+  const contentLength = Number(contentLengthHeader);
+  if (!contentLengthHeader || !Number.isSafeInteger(contentLength)) {
+    return NextResponse.json(
+      { error: "A valid content length is required." },
+      { status: 411 }
+    );
+  }
+  if (contentLength > MAX_TOTAL_BYTES + 1024 * 1024) {
+    return NextResponse.json(
+      { error: "Upload is too large." },
+      { status: 413 }
+    );
+  }
+
   try {
-    const formData = await request.formData();
-    const files = formData.getAll("file");
-    if (!files || files.length === 0) {
-      return NextResponse.json({ error: "No files provided." }, { status: 400 });
+    const uploadLimit = consumeRateLimit(
+      `upload:${authorization.session.tokenHash}`,
+      20,
+      60 * 60 * 1000
+    );
+    if (!uploadLimit.allowed) {
+      return NextResponse.json(
+        { error: "Upload limit reached. Please try again later." },
+        {
+          status: 429,
+          headers: { "Retry-After": String(uploadLimit.retryAfterSeconds) },
+        }
+      );
     }
 
-    // Prefer Cloudinary (unsigned preset) when configured, otherwise write to public/uploads
-    let urls: string[] = [];
+    let formData: FormData;
     try {
-      if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_UPLOAD_PRESET) {
-        urls = await uploadToCloudinary(files);
-      } else {
-        urls = await uploadToFilesystem(files);
-      }
-    } catch (err) {
-      // if cloud upload fails, attempt filesystem fallback
-      try {
-        urls = await uploadToFilesystem(files);
-      } catch (err2) {
-        return NextResponse.json({ error: "Upload failed." }, { status: 500 });
-      }
+      formData = await request.formData();
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid upload request." },
+        { status: 400 }
+      );
     }
+
+    const entries = formData.getAll("file");
+    if (
+      entries.length === 0 ||
+      entries.length > MAX_FILES ||
+      entries.some((entry) => typeof entry === "string")
+    ) {
+      return NextResponse.json(
+        { error: `Upload between 1 and ${MAX_FILES} image files.` },
+        { status: 400 }
+      );
+    }
+
+    const files = entries.filter(
+      (entry): entry is File => typeof entry !== "string"
+    );
+    if (files.length !== entries.length) {
+      return NextResponse.json(
+        { error: "Upload image files only." },
+        { status: 400 }
+      );
+    }
+    const totalBytes = files.reduce((total, file) => total + file.size, 0);
+    if (
+      totalBytes > MAX_TOTAL_BYTES ||
+      files.some((file) => file.size > MAX_FILE_BYTES)
+    ) {
+      return NextResponse.json(
+        { error: "Upload is too large." },
+        { status: 413 }
+      );
+    }
+
+    const images: NormalizedImage[] = [];
+    try {
+      for (const file of files) images.push(await normalizeImage(file));
+    } catch {
+      return NextResponse.json(
+        { error: "Only valid JPEG, PNG, or WebP images within the size limits are allowed." },
+        { status: 400 }
+      );
+    }
+
+    const urls =
+      process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_UPLOAD_PRESET
+        ? await uploadToCloudinary(images)
+        : await uploadToFilesystem(images);
 
     return NextResponse.json({ success: true, urls });
-  } catch (err) {
-    return NextResponse.json({ error: "Upload failed." }, { status: 500 });
+  } catch (error) {
+    if (error instanceof UploadStorageConfigurationError) {
+      console.error("Persistent image storage is not configured correctly.");
+      return NextResponse.json(
+        { error: "Persistent image storage is unavailable." },
+        { status: 503, headers: { "Cache-Control": "no-store" } }
+      );
+    }
+
+    console.error("Admin image upload failed.");
+    return NextResponse.json(
+      { error: "Image upload failed. Please try again." },
+      { status: 500 }
+    );
   }
 }

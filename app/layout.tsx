@@ -5,25 +5,19 @@ import Footer from "../src/components/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://fineconebuilders.co.ke"),
+  metadataBase: new URL("https://civil-constco.vercel.app"),
   title: {
-    default: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
-    template: "%s | Finecone Builders Limited"
+    default: "Finecon Builders Limited | Building Design & Construction",
+    template: "%s | Finecon Builders Limited"
   },
-  description: "Professional civil engineering and construction services across Kenya. Headquartered in Kilifi, delivering resilient coastal infrastructure with technical excellence, transparent processes, and proven nationwide delivery.",
+  description: "Explore Finecon Builders Limited's building design, construction, renovation, interior design, site supervision and structural design services.",
   keywords: [
-    "civil engineering Kenya",
-    "Kilifi construction company",
-    "construction contractor Kenya",
-    "infrastructure delivery",
-    "coastal engineering Kenya",
-    "road construction Kenya",
-    "drainage systems",
-    "bridge construction",
-    "water infrastructure",
+    "architectural design",
+    "building construction",
+    "general construction",
+    "interior design",
     "site supervision",
-    "engineering services nationwide",
-    "structural works Kenya"
+    "structural design"
   ],
   robots: {
     index: true,
@@ -35,32 +29,23 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_KE",
-    url: "https://fineconebuilders.co.ke",
-    siteName: "Finecone Builders Limited",
-    title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
-    description: "Finecone Builders Limited is a Kilifi-headquartered coastal construction company delivering civil engineering and infrastructure across the Kenyan Coast and all 47 counties.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Finecone Builders Limited - Civil Engineering & Construction"
-      }
-    ]
+    url: "https://civil-constco.vercel.app",
+    siteName: "Finecon Builders Limited",
+    title: "Finecon Builders Limited | Building Design & Construction",
+    description: "Explore Finecon Builders Limited's building design, construction, renovation, interior design, site supervision and structural design services."
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Finecone Builders Limited | Civil Engineering & Construction Kenya",
-    description: "Professional civil engineering and construction services across Kenya.",
-    creator: "@fineconebuilders"
+    card: "summary",
+    title: "Finecon Builders Limited | Building Design & Construction",
+    description: "Building design, construction, renovation, interior design, site supervision and structural design services."
   },
   alternates: {
-    canonical: "https://fineconebuilders.co.ke"
+    canonical: "https://civil-constco.vercel.app"
   },
   
-  authors: [{ name: "Finecone Builders Limited" }],
-  creator: "Finecone Builders Limited",
-  publisher: "Finecone Builders Limited"
+  authors: [{ name: "Finecon Builders Limited" }],
+  creator: "Finecon Builders Limited",
+  publisher: "Finecon Builders Limited"
 };
 
 export function generateViewport() {
@@ -80,40 +65,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="format-detection" content="telephone=no" />
         <meta name="theme-color" content="#1e293b" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <script
-          type="application/ld+json"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "Finecone Builders Limited",
-              url: "https://fineconebuilders.co.ke",
-              logo: "https://fineconebuilders.co.ke/logo.png",
-              description: "Professional civil engineering and construction services across Kenya",
-              sameAs: [
-                "https://www.linkedin.com/company/finecone-builders-limited",
-                "https://twitter.com/fineconebuilders"
-              ],
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: "Kilifi",
-                addressLocality: "Kilifi",
-                addressRegion: "Coastal",
-                postalCode: "80100",
-                addressCountry: "KE"
-              },
-              contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+254731300089",
-                contactType: "Customer Service",
-                email: "info@fineconebuilders.co.ke"
-              }
-            })
-          }}
-        />
       </head>
       <body>
         <Header />

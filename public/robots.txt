@@ -15,4 +15,4 @@ User-agent: SemrushBot
 Crawl-delay: 10
 
 # Sitemaps
-Sitemap: https://fineconebuilders.co.ke/sitemap.xml
+Sitemap: https://civil-constco.vercel.app/sitemap.xml

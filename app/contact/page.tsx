@@ -1,9 +1,10 @@
 import React from "react";
 import ContactForm from "../../src/components/ContactForm";
+import { company } from "../../src/data/content";
 
 export const metadata = {
-  title: "Contact | Finecone Builders Limited",
-  description: "Get in touch with Finecone Builders Limited for civil engineering, coastal construction and regional delivery across Kenya.",
+  title: "Contact | Finecon Builders Limited",
+  description: "Get in touch with Finecon Builders Limited for civil engineering, coastal construction and regional delivery across Kenya.",
 };
 
 export const dynamic = "force-static";
@@ -30,9 +31,13 @@ export default function ContactPage() {
           </ul>
           <div className="mt-6 rounded-2xl bg-white p-4 text-sm text-gray-700 shadow-sm">
             <p className="font-semibold">Phone</p>
-            <p>+254 700 000 000</p>
+            <a href={`tel:${company.phone}`} className="underline underline-offset-4">
+              {company.phone}
+            </a>
+            <p className="mt-4 font-semibold">Postal address</p>
+            <p>{company.postalAddress}</p>
             <p className="mt-4 font-semibold">Email</p>
-            <p>info@fineconebuilders.co.ke</p>
+            <p>info@finecon.co.ke</p>
           </div>
         </aside>
       </div>

@@ -3,36 +3,41 @@ import { processSteps } from "../data/content";
 
 export default function ProcessJourney() {
   return (
-    <section className="container py-16 space-y-8">
-      <div className="text-center space-y-4">
-        <h2 className="text-4xl font-bold">How We Work With You</h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Our proven process ensures clarity, accountability, and measurable results at every phase of your project.
-        </p>
-      </div>
+    <section className="bg-white py-20 md:py-28">
+      <div className="container">
+        <div className="mb-12 grid gap-5 md:mb-16 md:grid-cols-[0.8fr_1.2fr] md:items-end md:gap-16">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-steel">
+              Project delivery
+            </p>
+            <h2 className="mt-4 max-w-lg text-3xl font-semibold leading-tight md:text-5xl">
+              A clear sequence from planning to handover
+            </h2>
+          </div>
+          <p className="max-w-2xl text-lg leading-relaxed text-slate-700">
+            The stages below are drawn from the delivery approach currently
+            described by Finecon.
+          </p>
+        </div>
 
-      <div className="grid md:grid-cols-4 gap-6">
-        {processSteps.map((step, idx) => (
-          <article
-            key={step.step}
-            className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition space-y-4"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-5xl font-bold text-steel/20">{step.step}</span>
-              <div className="h-10 w-10 rounded-full bg-coast/10 flex items-center justify-center text-coast font-bold">
-                {step.step}
-              </div>
-            </div>
-            <h3 className="text-xl font-semibold">{step.title}</h3>
-            <p className="text-gray-600 leading-relaxed">{step.description}</p>
-
-            {idx < processSteps.length - 1 && (
-              <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 text-gray-300 text-2xl">
-                →
-              </div>
-            )}
-          </article>
-        ))}
+        <ol className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-10 lg:grid-cols-4 lg:gap-8">
+          {processSteps.map((step) => (
+            <li
+              key={step.step}
+              className="border-t border-slate-300 pt-5"
+            >
+              <p className="text-sm font-semibold tracking-[0.15em] text-steel">
+                0{step.step}
+              </p>
+              <h3 className="mt-5 text-xl font-semibold text-brand-navy">
+                {step.title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                {step.description.split(".")[0]}.
+              </p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
