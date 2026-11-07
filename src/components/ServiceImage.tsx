@@ -89,9 +89,6 @@ export default function ServiceImage({
             View image
           </span>
         </button>
-        <figcaption className="mt-3 text-xs leading-relaxed text-brand-muted">
-          Stock photograph for service illustration — not a Finecon project.
-        </figcaption>
       </figure>
 
       {isOpen ? (

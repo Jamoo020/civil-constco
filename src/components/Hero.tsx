@@ -47,9 +47,6 @@ export default function Hero() {
             </svg>
           </div>
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-navy/45 via-transparent to-transparent" />
-          <figcaption className="absolute bottom-0 left-0 p-4 text-xs font-medium uppercase tracking-[0.14em] text-white sm:p-6">
-            Illustrative infrastructure — not a Finecon project
-          </figcaption>
         </figure>
         </div>
     </section>
